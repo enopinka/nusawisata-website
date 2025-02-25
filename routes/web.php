@@ -35,6 +35,8 @@ Route::get('/admin/login', [LoginController::class, "index"]
 
 Route::post('/admin/login',[LoginController::class, "authenticate"] );
 
+Route::post('/admin/logout',[LoginController::class, "unauthenticate"] );
+
 Route::get('/admin/dashboard', function(){
     return Inertia::render('Admin/Dashboard');
 })->middleware('web');

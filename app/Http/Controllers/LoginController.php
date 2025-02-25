@@ -28,4 +28,13 @@ class LoginController extends Controller {
       'password'=> 'Password salah'
     ])->onlyInput('password');
   }
+
+  public function unauthenticate(Request $request){
+    Auth::logout(); 
+
+        $request->session()->invalidate(); 
+        $request->session()->regenerateToken();
+
+        return Inertia::location('/admin/login'); 
+  }
 }

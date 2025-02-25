@@ -20,6 +20,7 @@ import {
     SidebarMenuButton,
     SidebarMenuItem,
 } from "@/Components/ui/sidebar";
+import { Link, router } from "@inertiajs/react";
 
 // Menu items.
 const items = [
@@ -43,11 +44,6 @@ const items = [
         url: "#",
         icon: Car,
     },
-    {
-        title: "Logout",
-        url: "#",
-        icon: LogOut,
-    },
 ];
 
 export function AppSidebar() {
@@ -61,13 +57,22 @@ export function AppSidebar() {
                             {items.map((item) => (
                                 <SidebarMenuItem key={item.title}>
                                     <SidebarMenuButton asChild>
-                                        <a href={item.url}>
+                                        <Link href={item.url}>
                                             <item.icon />
                                             <span>{item.title}</span>
-                                        </a>
+                                        </Link>
                                     </SidebarMenuButton>
                                 </SidebarMenuItem>
                             ))}
+                            <SidebarMenuItem>
+                                <SidebarMenuButton
+                                    onClick={() => router.post("/admin/logout")}
+                                    className="flex items-center"
+                                >
+                                    <LogOut />
+                                    <span>Logout</span>
+                                </SidebarMenuButton>
+                            </SidebarMenuItem>
                         </SidebarMenu>
                     </SidebarGroupContent>
                 </SidebarGroup>
