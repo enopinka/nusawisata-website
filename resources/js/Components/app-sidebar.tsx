@@ -26,12 +26,12 @@ import { Link, router } from "@inertiajs/react";
 const items = [
     {
         title: "Home",
-        url: "#",
+        url: "/admin/dashboard",
         icon: Home,
     },
     {
         title: "Blog",
-        url: "#",
+        url: "/admin/blog",
         icon: NotebookPen,
     },
     {

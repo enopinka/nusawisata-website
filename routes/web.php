@@ -39,7 +39,15 @@ Route::post('/admin/logout',[LoginController::class, "unauthenticate"] );
 
 Route::get('/admin/dashboard', function(){
     return Inertia::render('Admin/Dashboard');
-})->middleware('web');
+})->middleware('auth');
+
+Route::get('/admin/blog', function(){
+    return Inertia::render('Admin/Blog/Blogs');
+});
+
+Route::get('/admin/blog/create', function(){
+    return Inertia::render('Admin/Blog/Create');
+});
 
 // Route::get('/', function () {
 //     return Inertia::render('Welcome', [
