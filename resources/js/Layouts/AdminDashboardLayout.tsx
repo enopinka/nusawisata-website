@@ -1,0 +1,19 @@
+import { SidebarProvider, SidebarTrigger } from "@/Components/ui/sidebar";
+import { AppSidebar } from "@/Components/App-sidebar";
+import React from "react";
+
+export default function AdminDashboard({
+    children,
+}: Readonly<{ children: React.ReactNode }>) {
+    return (
+        <>
+            <SidebarProvider>
+                <AppSidebar />
+                <main>
+                    <SidebarTrigger />
+                    {children}
+                </main>
+            </SidebarProvider>
+        </>
+    );
+}
