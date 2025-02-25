@@ -1,9 +1,10 @@
 <?php
 
-use App\Http\Controllers\ProfileController;
+
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
+use App\Http\Controllers\LoginController;
 
 Route::get('/', function(){
     return Inertia::render('Home');
@@ -29,6 +30,14 @@ Route::get('portfolio', function(){
     return Inertia::render('Portfolio');
 });
 
+Route::get('/admin/login', [LoginController::class, "index"]
+)->name("login");
+
+Route::post('/admin/login',[LoginController::class, "authenticate"] );
+
+Route::get('/admin/dashboard', function(){
+    return Inertia::render('Admin/Dashboard');
+})->middleware('web');
 
 // Route::get('/', function () {
 //     return Inertia::render('Welcome', [
