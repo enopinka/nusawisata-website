@@ -1,9 +1,7 @@
-"use client";
-
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-import { Button } from "@/Components/ui/button";
+import { Button } from "@/components/ui/button";
 import {
     Form,
     FormControl,
@@ -13,7 +11,7 @@ import {
     FormLabel,
     FormMessage,
 } from "@/Components/ui/form";
-import { Input } from "@/Components/ui/input";
+import { Input } from "@/components/ui/input";
 import { router } from "@inertiajs/react";
 
 const formSchema = z.object({

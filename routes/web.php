@@ -1,6 +1,6 @@
 <?php
 
-
+use App\Http\Controllers\BlogController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -41,13 +41,11 @@ Route::get('/admin/dashboard', function(){
     return Inertia::render('Admin/Dashboard');
 })->middleware('auth');
 
-Route::get('/admin/blog', function(){
-    return Inertia::render('Admin/Blog/Blogs');
-});
+Route::get('/admin/blog', [BlogController::class, "index"]);
 
-Route::get('/admin/blog/create', function(){
-    return Inertia::render('Admin/Blog/Create');
-});
+Route::get('/admin/blog/create',[BlogController::class, "createBlogScreen"]);
+
+Route::post('/admin/blog/create', [BlogController::class, "createBlog"])->middleware('auth');
 
 // Route::get('/', function () {
 //     return Inertia::render('Welcome', [

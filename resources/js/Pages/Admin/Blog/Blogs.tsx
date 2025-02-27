@@ -1,4 +1,4 @@
-import { Button } from "@/Components/ui/button";
+import { Button } from "@/components/ui/button";
 import AdminDashboard from "@/Layouts/AdminDashboardLayout";
 import { Link } from "@inertiajs/react";
 import { Plus } from "lucide-react";
