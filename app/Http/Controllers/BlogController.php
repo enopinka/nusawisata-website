@@ -10,17 +10,15 @@ use App\Models\Blog;
 class BlogController extends Controller
 {
     public function index(){
-        return Inertia::render("Admin/Blog");
+        $blogs = Blog::all();
+        return Inertia::render("Admin/Blog/Blogs", ['blogs'=>$blogs]);
     }
     
     public function createBlogScreen(){
         return Inertia::render("Admin/Blog/Create");
     }
 
-    public function getAllBlog(){
-        $blogs = Blog::all();
-        return response()->json($blogs); 
-    }
+    
 
     public function createBlog(Request $request){
 // Cek apakah user sudah login
