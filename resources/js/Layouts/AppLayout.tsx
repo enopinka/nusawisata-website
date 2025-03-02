@@ -7,13 +7,13 @@ export default function App({
     return (
         <>
             {/* navbar aplikasi */}
-            <div className="overflow-x-hidden">
-                <div className=" bg-custom-blue  h-16 flex justify-between items-center">
+            <div>
+                <div className="bg-custom-blue bg-opacity-75 h-16 flex justify-between items-center sticky top-0 shadow-md z-50">
                     <div className="mx-4 flex gap-2 items-center">
                         <div className="w-14 h-14 relative">
                             <img src="/images/logo.png" alt="logo" />
                         </div>
-                        <div className="text-custom-cream font-montserrat font-bold">
+                        <div className="text-custom-cream font-montserrat font-bold leading-tight">
                             <p>PRATAMA</p>
                             <p>NUSA WISATA</p>
                         </div>
@@ -21,40 +21,30 @@ export default function App({
                     <div>
                         <ul className="w-full flex gap-4 font-jost text-custom-cream mx-4">
                             <li>
-                                <Link href="/" className="">
-                                    Home
-                                </Link>
+                                <Link href="/">Home</Link>
                             </li>
                             <li>
-                                <Link href="/blog" className="">
-                                    Blog
-                                </Link>
+                                <Link href="/blog">Blog</Link>
                             </li>
                             <li>
-                                <Link href="/tour-package" className="">
-                                    Paket Wisata
-                                </Link>
+                                <Link href="/tour-package">Paket Wisata</Link>
                             </li>
                             <li>
-                                <Link href="/rental" className="">
-                                    Sewa Kendaraan
-                                </Link>
+                                <Link href="/rental">Sewa Kendaraan</Link>
                             </li>
                             <li>
-                                <Link href="/portfolio" className="">
-                                    Portfolio
-                                </Link>
+                                <Link href="/portfolio">Portfolio</Link>
                             </li>
                             <li>
-                                <Link href="/about" className="">
-                                    Tentang Kami
-                                </Link>
+                                <Link href="/about">Tentang Kami</Link>
                             </li>
                         </ul>
                     </div>
                 </div>
-                {/* children */}
-                {children}
+                <div className="-mt-16 relative z-0">
+                    {/* children */}
+                    {children}
+                </div>
             </div>
         </>
     );

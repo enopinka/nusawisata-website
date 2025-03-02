@@ -14,7 +14,7 @@ export default function Home() {
             <AppLayout>
                 {/* hero section */}
                 <section>
-                    <div className="relative h-[680px] bg-[url('/images/hero.jpg')] bg-center bg-cover w-full border border-black overflow-hidden flex items-end">
+                    <div className="relative h-screen bg-[url('/images/hero.jpg')] bg-center bg-cover w-full border border-black overflow-hidden flex items-end">
                         {/* Overlay */}
                         <div className="absolute inset-0 bg-gray-700/30"></div>
 
