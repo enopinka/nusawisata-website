@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 use App\Models\Blog;
+use Illuminate\Support\Str;
 
 class BlogController extends Controller
 {
@@ -21,12 +22,12 @@ class BlogController extends Controller
     
 
     public function createBlog(Request $request){
-// Cek apakah user sudah login
-if (!Auth::check()) {
-    return response()->json([
-        "message" => "Unauthorized. Please log in first."
-    ], 401);
-}
+    // Cek apakah user sudah login
+    if (!Auth::check()) {
+        return response()->json([
+            "message" => "Unauthorized. Please log in first."
+        ], 401);
+    }
 
         $request->validate([
             "title" =>"required",
@@ -42,9 +43,10 @@ if (!Auth::check()) {
 
         return redirect('/admin/blog')->with('success', 'Blog baru telah dibuat');
 
-        // return response()->json([
-        //     "message" => "Blog created successfully",
-        //     "blog" => $blog
-        // ], 201);
+        
+    }
+
+    public function editBlog(){
+        
     }
 }
