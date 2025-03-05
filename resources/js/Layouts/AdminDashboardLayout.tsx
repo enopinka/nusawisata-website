@@ -11,7 +11,7 @@ export default function AdminDashboard({
                 <AppSidebar />
                 <main>
                     <SidebarTrigger />
-                    <div className="mx-8 my-4">{children}</div>
+                    <div className="mx-full border-black">{children}</div>
                 </main>
             </SidebarProvider>
         </>

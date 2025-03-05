@@ -40,9 +40,11 @@ if (!Auth::check()) {
             "content"=> $request->content,
         ]);
 
-        return response()->json([
-            "message" => "Blog created successfully",
-            "blog" => $blog
-        ], 201);
+        return redirect('/admin/blog')->with('success', 'Blog baru telah dibuat');
+
+        // return response()->json([
+        //     "message" => "Blog created successfully",
+        //     "blog" => $blog
+        // ], 201);
     }
 }

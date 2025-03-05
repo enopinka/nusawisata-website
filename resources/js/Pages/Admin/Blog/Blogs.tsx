@@ -39,36 +39,58 @@ export default function Blogs({ blogs }: BlogsProps) {
                         Create New Blog
                     </Link>
                 </Button>
-                <Table className="w-full">
-                    <TableHeader>
-                        <TableRow>
-                            <TableHead>ID</TableHead>
-                            <TableHead>Judul</TableHead>
-                            <TableHead>Terakhir Diedit</TableHead>
-                            <TableHead>Aksi</TableHead>
-                        </TableRow>
-                    </TableHeader>
-                    <TableBody>
-                        {blogs.map((blog) => (
-                            <TableRow key={blog.id}>
-                                <TableCell>{blog.id}</TableCell>
-                                <TableCell>{blog.title}</TableCell>
-                                <TableCell>{blog.updated_at}</TableCell>
-                                <TableCell>
-                                    <button>
-                                        <Eye />
-                                    </button>
-                                    <button>
-                                        <Pencil />
-                                    </button>
-                                    <button>
-                                        <Trash2 />
-                                    </button>
-                                </TableCell>
+                <div className="">
+                    <Table className="w-full ">
+                        <TableHeader>
+                            <TableRow>
+                                <TableHead>ID</TableHead>
+                                <TableHead>Judul</TableHead>
+                                <TableHead>Terakhir Diedit</TableHead>
+                                <TableHead>Aksi</TableHead>
                             </TableRow>
-                        ))}
-                    </TableBody>
-                </Table>
+                        </TableHeader>
+                        <TableBody>
+                            {blogs === undefined ? (
+                                <TableRow>
+                                    <TableCell
+                                        colSpan={4}
+                                        className="text-center"
+                                    >
+                                        Loading...
+                                    </TableCell>
+                                </TableRow>
+                            ) : blogs.length === 0 ? (
+                                <TableRow>
+                                    <TableCell
+                                        colSpan={4}
+                                        className="text-center"
+                                    >
+                                        Tidak ada data.
+                                    </TableCell>
+                                </TableRow>
+                            ) : (
+                                blogs.map((blog) => (
+                                    <TableRow key={blog.id}>
+                                        <TableCell>{blog.id}</TableCell>
+                                        <TableCell>{blog.title}</TableCell>
+                                        <TableCell>{blog.updated_at}</TableCell>
+                                        <TableCell>
+                                            <button>
+                                                <Eye />
+                                            </button>
+                                            <button>
+                                                <Pencil />
+                                            </button>
+                                            <button>
+                                                <Trash2 />
+                                            </button>
+                                        </TableCell>
+                                    </TableRow>
+                                ))
+                            )}
+                        </TableBody>
+                    </Table>
+                </div>
             </AdminDashboard>
         </>
     );

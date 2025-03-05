@@ -48,7 +48,7 @@ export default function Create() {
 
         router.post("/admin/blog/create", values, {
             onSuccess: () => {
-                console.log("berhasil login");
+                console.log("berhasil menambahkan blog baru");
             },
             onError: (e) => {
                 console.log(e);
