@@ -47,6 +47,8 @@ Route::get('/admin/blog/create',[BlogController::class, "createBlogScreen"]);
 
 Route::post('/admin/blog/create', [BlogController::class, "createBlog"])->middleware('auth');
 
+Route::delete('/admin/blog/delete/{id}',[BlogController::class, "deleteBlog"])->middleware('auth') ;
+
 // Route::get('/', function () {
 //     return Inertia::render('Welcome', [
 //         'canLogin' => Route::has('login'),

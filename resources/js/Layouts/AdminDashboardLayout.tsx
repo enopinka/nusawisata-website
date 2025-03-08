@@ -8,11 +8,13 @@ export default function AdminDashboard({
     return (
         <>
             <SidebarProvider>
-                <AppSidebar />
-                <main>
-                    <SidebarTrigger />
-                    <div className="mx-full border-black">{children}</div>
-                </main>
+                <div className="flex h-screen">
+                    <AppSidebar />
+                    <main className="flex-1">
+                        <SidebarTrigger />
+                        <div className=" mx-8 w-[1080px]">{children}</div>
+                    </main>
+                </div>
             </SidebarProvider>
         </>
     );

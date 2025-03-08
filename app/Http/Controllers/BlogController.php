@@ -6,7 +6,9 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 use App\Models\Blog;
-use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Log;
+
+
 
 class BlogController extends Controller
 {
@@ -46,7 +48,16 @@ class BlogController extends Controller
         
     }
 
-    public function editBlog(){
+    public function deleteBlog($id){
+        $blog = Blog::where('id', $id)->first();
         
+        if (!$blog){
+            return redirect('admin/blog')->with('error', 'Blog tidak ditemukan');
+        };
+        
+
+    $blog->delete();
+
+    return redirect('admin/blog')->with('success', 'Blog berhasil dihapus');
     }
 }

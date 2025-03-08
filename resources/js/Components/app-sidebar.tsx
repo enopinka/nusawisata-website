@@ -48,7 +48,7 @@ const items = [
 
 export function AppSidebar() {
     return (
-        <Sidebar>
+        <Sidebar className="w-64">
             <SidebarContent>
                 <SidebarGroup>
                     <SidebarGroupLabel>Nusa Wisata Admin</SidebarGroupLabel>

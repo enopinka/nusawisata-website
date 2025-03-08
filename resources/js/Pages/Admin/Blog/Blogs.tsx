@@ -8,7 +8,7 @@ import {
     TableRow,
 } from "@/Components/ui/table";
 import AdminDashboard from "@/Layouts/AdminDashboardLayout";
-import { Link } from "@inertiajs/react";
+import { Link, router } from "@inertiajs/react";
 import { Eye, Pencil, Plus, Trash2 } from "lucide-react";
 
 type Blog = {
@@ -30,7 +30,7 @@ export default function Blogs({ blogs }: BlogsProps) {
         <>
             <AdminDashboard>
                 <p>Ini halaman blogs</p>
-                <Button>
+                <Button className="my-4">
                     <Link
                         href="/admin/blog/create"
                         className="flex gap-2 items-center"
@@ -75,15 +75,34 @@ export default function Blogs({ blogs }: BlogsProps) {
                                         <TableCell>{blog.title}</TableCell>
                                         <TableCell>{blog.updated_at}</TableCell>
                                         <TableCell>
-                                            <button>
-                                                <Eye />
-                                            </button>
-                                            <button>
-                                                <Pencil />
-                                            </button>
-                                            <button>
-                                                <Trash2 />
-                                            </button>
+                                            <div className="flex flex-row gap-4 text-slate-700 text-sm">
+                                                <button className="">
+                                                    <Eye size={20} />
+                                                </button>
+                                                <button>
+                                                    <Pencil size={20} />
+                                                </button>
+
+                                                <button
+                                                    onClick={() =>
+                                                        router.delete(
+                                                            `/admin/blog/delete/${blog.id}`,
+                                                            {
+                                                                onSuccess: () =>
+                                                                    alert(
+                                                                        "Blogs berhasil dihapus"
+                                                                    ),
+                                                                onError: (e) =>
+                                                                    alert(
+                                                                        "Gagal: ${e}"
+                                                                    ),
+                                                            }
+                                                        )
+                                                    }
+                                                >
+                                                    <Trash2 size={20} />
+                                                </button>
+                                            </div>
                                         </TableCell>
                                     </TableRow>
                                 ))
