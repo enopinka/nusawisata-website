@@ -21,8 +21,6 @@ class BlogController extends Controller
         return Inertia::render("Admin/Blog/Create");
     }
 
-    
-
     public function createBlog(Request $request){
     // Cek apakah user sudah login
     if (!Auth::check()) {
@@ -59,5 +57,14 @@ class BlogController extends Controller
     $blog->delete();
 
     return redirect('admin/blog')->with('success', 'Blog berhasil dihapus');
+    }
+
+    public function editBlog()  {
+        
+    }
+
+    public function getBlogHome(){
+        $blogs=Blog::take(9)->get();
+        return Inertia::render("Home", ['blogs'=>$blogs]);
     }
 }

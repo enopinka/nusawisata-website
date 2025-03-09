@@ -8,11 +8,22 @@ import {
 import AppLayout from "@/Layouts/AppLayout";
 import { Link } from "@inertiajs/react";
 
-export default function Home() {
+type Blog = {
+    id: number;
+    title: string;
+};
+
+type BlogsProps = {
+    blogs: Blog[];
+};
+
+export default function Home({ blogs }: BlogsProps) {
+    console.log(blogs);
     return (
         <>
             <AppLayout>
                 {/* hero section */}
+
                 <section>
                     <div className="relative h-screen bg-[url('/images/hero.jpg')] bg-center bg-cover w-full border border-black overflow-hidden flex items-end">
                         {/* Overlay */}
@@ -28,112 +39,30 @@ export default function Home() {
 
                 {/* blogs section */}
                 <section className="h-full w-full bg-custom-cream">
-                    <div className="mx-8 py-16 h-full grid grid-cols-2 md:grid-cols-4 gap-4 ">
-                        <div className="grid gap-4">
-                            <div className="relative group">
+                    <div className="mx-8 py-8 grid grid-cols-2 md:grid-cols-3 gap-4">
+                        {blogs.map((blog) => (
+                            <div
+                                key={blog.id}
+                                className="relative group rounded-lg overflow-hidden"
+                            >
                                 <img
-                                    className="h-auto max-w-full rounded-lg"
-                                    src="https://flowbite.s3.amazonaws.com/docs/gallery/masonry/image.jpg"
+                                    className="h-auto max-w-full rounded-lg transition duration-300"
+                                    src="https://flowbite.s3.amazonaws.com/docs/gallery/square/image.jpg"
                                     alt=""
                                 />
-                                <div className="absolute inset-0 bg-gray-700 opacity-0 group-hover:opacity-30 rounded-lg transition-opacity"></div>
+                                <div className="absolute inset-0 bg-gray-700 opacity-0 group-hover:opacity-30 transition duration-300"></div>
+                                <div className="m-4 absolute inset-0 flex flex-col items-start justify-end opacity-0 group-hover:opacity-100 transition duration-300 space-y-2">
+                                    <p className="text-white font-semibold text-2xl font-montserrat">
+                                        {blog.title}
+                                    </p>
+                                    <p className="text-white font-montserrat">
+                                        Ini deskripsi tapi belom dibikin
+                                        kolomnya di database jadi ya begini dulu
+                                        ya. soalnya aneh kalo title doang
+                                    </p>
+                                </div>
                             </div>
-
-                            <div className="relative group">
-                                <img
-                                    className="h-auto max-w-full rounded-lg"
-                                    src="https://flowbite.s3.amazonaws.com/docs/gallery/masonry/image-1.jpg"
-                                    alt=""
-                                />
-                                <div className="absolute inset-0 bg-gray-700 opacity-0 group-hover:opacity-30 rounded-lg transition-opacity"></div>
-                            </div>
-                            <div className="relative group">
-                                <img
-                                    className="h-auto max-w-full rounded-lg"
-                                    src="https://flowbite.s3.amazonaws.com/docs/gallery/masonry/image-2.jpg"
-                                    alt=""
-                                />
-                                <div className="absolute inset-0 bg-gray-700 opacity-0 group-hover:opacity-30 rounded-lg transition-opacity"></div>
-                            </div>
-                        </div>
-                        <div className="grid gap-4">
-                            <div className="relative group">
-                                <img
-                                    className="h-auto max-w-full rounded-lg"
-                                    src="https://flowbite.s3.amazonaws.com/docs/gallery/masonry/image-3.jpg"
-                                    alt=""
-                                />
-                                <div className="absolute inset-0 bg-gray-700 opacity-0 group-hover:opacity-30 rounded-lg transition-opacity"></div>
-                            </div>
-                            <div className="relative group">
-                                <img
-                                    className="h-auto max-w-full rounded-lg"
-                                    src="https://flowbite.s3.amazonaws.com/docs/gallery/masonry/image-4.jpg"
-                                    alt=""
-                                />
-                                <div className="absolute inset-0 bg-gray-700 opacity-0 group-hover:opacity-30 rounded-lg transition-opacity"></div>
-                            </div>
-                            <div className="relative group">
-                                <img
-                                    className="h-auto max-w-full rounded-lg"
-                                    src="https://flowbite.s3.amazonaws.com/docs/gallery/masonry/image-5.jpg"
-                                    alt=""
-                                />
-                                <div className="absolute inset-0 bg-gray-700 opacity-0 group-hover:opacity-30 rounded-lg transition-opacity"></div>
-                            </div>
-                        </div>
-                        <div className="grid gap-4">
-                            <div className="relative group">
-                                <img
-                                    className="h-auto max-w-full rounded-lg"
-                                    src="https://flowbite.s3.amazonaws.com/docs/gallery/masonry/image-6.jpg"
-                                    alt=""
-                                />
-                                <div className="absolute inset-0 bg-gray-700 opacity-0 group-hover:opacity-30 rounded-lg transition-opacity"></div>
-                            </div>
-                            <div className="relative group">
-                                <img
-                                    className="h-auto max-w-full rounded-lg"
-                                    src="https://flowbite.s3.amazonaws.com/docs/gallery/masonry/image-7.jpg"
-                                    alt=""
-                                />
-                                <div className="absolute inset-0 bg-gray-700 opacity-0 group-hover:opacity-30 rounded-lg transition-opacity"></div>
-                            </div>
-                            <div className="relative group">
-                                <img
-                                    className="h-auto max-w-full rounded-lg"
-                                    src="https://flowbite.s3.amazonaws.com/docs/gallery/masonry/image-8.jpg"
-                                    alt=""
-                                />
-                                <div className="absolute inset-0 bg-gray-700 opacity-0 group-hover:opacity-30 rounded-lg transition-opacity"></div>
-                            </div>
-                        </div>
-                        <div className="grid gap-4">
-                            <div className="relative group">
-                                <img
-                                    className="h-auto max-w-full rounded-lg"
-                                    src="https://flowbite.s3.amazonaws.com/docs/gallery/masonry/image-9.jpg"
-                                    alt=""
-                                />
-                                <div className="absolute inset-0 bg-gray-700 opacity-0 group-hover:opacity-30 rounded-lg transition-opacity"></div>
-                            </div>
-                            <div className="relative group">
-                                <img
-                                    className="h-auto max-w-full rounded-lg"
-                                    src="https://flowbite.s3.amazonaws.com/docs/gallery/masonry/image-10.jpg"
-                                    alt=""
-                                />
-                                <div className="absolute inset-0 bg-gray-700 opacity-0 group-hover:opacity-30 rounded-lg transition-opacity"></div>
-                            </div>
-                            <div className="relative group">
-                                <img
-                                    className="h-auto max-w-full rounded-lg"
-                                    src="https://flowbite.s3.amazonaws.com/docs/gallery/masonry/image-11.jpg"
-                                    alt=""
-                                />
-                                <div className="absolute inset-0 bg-gray-700 opacity-0 group-hover:opacity-30 rounded-lg transition-opacity"></div>
-                            </div>
-                        </div>
+                        ))}
                     </div>
                 </section>
                 {/* service section */}

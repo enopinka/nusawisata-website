@@ -6,9 +6,7 @@ use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 use App\Http\Controllers\LoginController;
 
-Route::get('/', function(){
-    return Inertia::render('Home');
-});
+Route::get('/', [BlogController::class, "getBlogHome"]);
 
 Route::get('tour-package', function(){
     return Inertia::render('TourPackage');
