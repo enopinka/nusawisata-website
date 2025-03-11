@@ -1,9 +1,24 @@
 import AppLayout from "@/Layouts/AppLayout";
 
-export default function BlogPost() {
+type Blog = {
+    id: number;
+    title: string;
+    slug: string;
+    content: string;
+    edited_at: Date;
+};
+
+type BlogPost = {
+    blog: Blog;
+};
+
+export default function BlogPost({ blog }: BlogPost) {
     return (
         <AppLayout>
-            <p>Ini ketika artikel dibuka</p>
+            <div className="mt-16">
+                <p>{blog.title}</p>
+                <p>{blog.content}</p>
+            </div>
         </AppLayout>
     );
 }

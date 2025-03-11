@@ -71,4 +71,9 @@ class BlogController extends Controller
         $blogs=Blog::all();
         return Inertia::render("Blog", ['blogs'=>$blogs]);
     }
+    
+    public function getAPost($slug){
+        $blog=Blog::where('slug', $slug)->firstOrFail();
+        return Inertia::render("BlogPost", ['blog'=>$blog]);
+    }
 }

@@ -23,6 +23,9 @@ Route::get('about', function(){
 Route::get('blog', 
 [BlogController::class, "getAllBlog"]);
 
+Route::get('blog/{slug}', 
+[BlogController::class, "getAPost"]);
+
 Route::get('portfolio', function(){
     return Inertia::render('Portfolio');
 });

@@ -29,7 +29,7 @@ export default function Blog({ blogs }: BlogsProps) {
                     <div className="grid grid-cols-3 gap-4">
                         {blogs.map((blog) => (
                             <Link key={blog.id} href={`/blog/${blog.slug}`}>
-                                <Card className="hover:shadow-md ">
+                                <Card className="hover:shadow-md hover:scale-105 transition-transform duration-300">
                                     <img
                                         src="https://flowbite.s3.amazonaws.com/docs/gallery/square/image.jpg"
                                         className="w-full rounded-t-lg"
