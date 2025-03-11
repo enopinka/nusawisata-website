@@ -20,9 +20,8 @@ Route::get('about', function(){
     return Inertia::render('About');
 });
 
-Route::get('blog', function(){
-    return Inertia::render('Blog');
-});
+Route::get('blog', 
+[BlogController::class, "getAllBlog"]);
 
 Route::get('portfolio', function(){
     return Inertia::render('Portfolio');

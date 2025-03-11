@@ -67,4 +67,8 @@ class BlogController extends Controller
         $blogs=Blog::take(9)->get();
         return Inertia::render("Home", ['blogs'=>$blogs]);
     }
+    public function getAllBlog(){
+        $blogs=Blog::all();
+        return Inertia::render("Blog", ['blogs'=>$blogs]);
+    }
 }
