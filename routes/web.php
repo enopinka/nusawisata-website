@@ -41,9 +41,9 @@ Route::get('/admin/dashboard', function(){
     return Inertia::render('Admin/Dashboard');
 })->middleware('auth');
 
-Route::get('/admin/blog', [BlogController::class, "index"]);
+Route::get('/admin/blog', [BlogController::class, "index"])->middleware('auth');
 
-Route::get('/admin/blog/create',[BlogController::class, "createBlogScreen"]);
+Route::get('/admin/blog/create',[BlogController::class, "createBlogScreen"])->middleware('auth');
 
 Route::post('/admin/blog/create', [BlogController::class, "createBlog"])->middleware('auth');
 

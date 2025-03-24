@@ -16,19 +16,15 @@ import {
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/Components/ui/textarea";
 import { router } from "@inertiajs/react";
+import Tiptap from "@/Components/editor/Tiptap";
 
 const formSchema = z.object({
     title: z.string().min(2, {
         message: "title must be at least 2 characters.",
     }),
-    content: z
-        .string()
-        .min(10, {
-            message: "content must be at least 10 characters.",
-        })
-        .max(160, {
-            message: "content must not be longer than 30 characters.",
-        }),
+    content: z.string().min(10, {
+        message: "content must be at least 10 characters.",
+    }),
 });
 
 export default function Create() {
@@ -85,16 +81,12 @@ export default function Create() {
                                 <FormItem>
                                     <FormLabel>content</FormLabel>
                                     <FormControl>
-                                        <Textarea
-                                            placeholder="Tell us a little bit about yourself"
-                                            className="resize-none"
-                                            {...field}
+                                        <Tiptap
+                                            content={field.value}
+                                            onChange={field.onChange}
                                         />
                                     </FormControl>
-                                    <FormDescription>
-                                        You can <span>@mention</span> other
-                                        users and organizations.
-                                    </FormDescription>
+
                                     <FormMessage />
                                 </FormItem>
                             )}

@@ -17,7 +17,7 @@ export default function BlogPost({ blog }: BlogPost) {
         <AppLayout>
             <div className="mt-16">
                 <p>{blog.title}</p>
-                <p>{blog.content}</p>
+                <div dangerouslySetInnerHTML={{ __html: blog.content }} />
             </div>
         </AppLayout>
     );
