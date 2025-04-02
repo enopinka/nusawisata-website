@@ -1,4 +1,4 @@
-import AdminDashboard from "@/Layouts/AdminDashboardLayout";
+import AdminDashboard from "@/Layouts/AdminLayout";
 
 export default function Home() {
     return (

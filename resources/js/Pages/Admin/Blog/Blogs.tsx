@@ -7,7 +7,7 @@ import {
     TableHeader,
     TableRow,
 } from "@/Components/ui/table";
-import AdminDashboard from "@/Layouts/AdminDashboardLayout";
+import AdminDashboard from "@/Layouts/AdminLayout";
 import { Link, router } from "@inertiajs/react";
 import { Eye, Pencil, Plus, Trash2 } from "lucide-react";
 

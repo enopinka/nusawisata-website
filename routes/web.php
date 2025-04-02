@@ -41,6 +41,10 @@ Route::get('/admin/dashboard', function(){
     return Inertia::render('Admin/Dashboard');
 })->middleware('auth');
 
+Route::get('/admin/tour', function(){
+    return Inertia::render('Admin/Tour/Tours');
+})->middleware('auth');
+
 Route::get('/admin/blog', [BlogController::class, "index"])->middleware('auth');
 
 Route::get('/admin/blog/create',[BlogController::class, "createBlogScreen"])->middleware('auth');
