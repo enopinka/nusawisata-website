@@ -1,4 +1,3 @@
-import defaultTheme from "tailwindcss/defaultTheme";
 import forms from "@tailwindcss/forms";
 
 /** @type {import('tailwindcss').Config} */
@@ -12,6 +11,17 @@ export default {
     ],
 
     theme: {
+        container: {
+            center: true,
+            padding: "1rem",
+            screens: {
+                sm: "100%",
+                md: "100%",
+                lg: "64rem",
+                xl: "64rem",
+                "2xl": "64rem",
+            },
+        },
         extend: {
             fontFamily: {
                 montserrat: ["Montserrat", "sans-serif"],
