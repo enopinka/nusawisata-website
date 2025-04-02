@@ -65,13 +65,13 @@ class TourController extends Controller
             'id'=>"required"
         ]);
 
-        dd($request->id);
+     
 
         $package = TourPackage::create([
                 "title"=> $request->title,
                 "description"=> $request->description,
                 "price"=> $request->price,
-                "tour_id"=>5
+                "tour_id"=>$request->id
             ]);
 
         return redirect('/admin/tour/'.$request->id)->with('succes', 'Paket baru telah ditambahkan');

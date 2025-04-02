@@ -8,7 +8,7 @@ class TourPackage extends Model
 {
     protected $fillable=[
         "id",
-        "tours",
+        "tour_id",
         "title",
         "description",
         "price",
