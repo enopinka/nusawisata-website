@@ -7,7 +7,7 @@ import {
     TableHeader,
     TableRow,
 } from "@/Components/ui/table";
-import AdminDashboard from "@/Layouts/AdminLayout";
+import AdminLayout from "@/Layouts/AdminLayout";
 import { Link, router } from "@inertiajs/react";
 import { Eye, Pencil, Plus, Trash2 } from "lucide-react";
 
@@ -28,7 +28,7 @@ export default function Blogs({ blogs }: BlogsProps) {
     console.log(blogs);
     return (
         <>
-            <AdminDashboard>
+            <AdminLayout>
                 <p>Ini halaman blogs</p>
                 <Button className="my-4">
                     <Link
@@ -110,7 +110,7 @@ export default function Blogs({ blogs }: BlogsProps) {
                         </TableBody>
                     </Table>
                 </div>
-            </AdminDashboard>
+            </AdminLayout>
         </>
     );
 }

@@ -48,9 +48,11 @@ Route::middleware('auth')->group(function(){
     Route::get('/admin/blog', [BlogController::class, "index"]);
     Route::get('/admin/blog/create',[BlogController::class, "createBlogScreen"]);
     Route::get( '/admin/tour', [TourController::class, "index"]);
+    Route::get( '/admin/tour/{id}', [TourController::class, "tourDetailsScreen"]);
     
     Route::post('/admin/blog/create', [BlogController::class, "createBlog"]);
     Route::post('/admin/tour/create', [TourController::class, "createTour"]);
+    Route::post('/admin/tour/add-package', [TourController::class, "addPackage"]);
 
     Route::delete('/admin/blog/delete/{id}',[BlogController::class, "deleteBlog"]);
 });

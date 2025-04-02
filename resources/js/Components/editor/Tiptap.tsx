@@ -49,7 +49,10 @@ export default function Tiptap({ content, onChange }: TiptapProps) {
     return (
         <>
             {editor && <MenuBar editor={editor} />}
-            <EditorContent editor={editor} />
+            <EditorContent
+                editor={editor}
+                className="h-48 max-h-48 overflow-y-auto"
+            />
         </>
     );
 }

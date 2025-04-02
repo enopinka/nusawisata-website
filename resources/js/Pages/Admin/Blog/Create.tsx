@@ -1,4 +1,4 @@
-import AdminDashboard from "@/Layouts/AdminLayout";
+import AdminLayout from "@/Layouts/AdminLayout";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -54,7 +54,7 @@ export default function Create() {
 
     return (
         <>
-            <AdminDashboard>
+            <AdminLayout>
                 <Form {...form}>
                     <form
                         onSubmit={form.handleSubmit(onSubmit)}
@@ -94,7 +94,7 @@ export default function Create() {
                         <Button type="submit">Submit</Button>
                     </form>
                 </Form>
-            </AdminDashboard>
+            </AdminLayout>
         </>
     );
 }

@@ -65,8 +65,6 @@ const formSchema = z.object({
 export default function Tours({ tours }: ToursProps) {
     const [dialogOpen, setDialogOpen] = useState(false);
 
-    console.log(tours);
-
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
@@ -166,10 +164,7 @@ export default function Tours({ tours }: ToursProps) {
                                     </CardDescription>
                                 </div>
                                 <div className="flex gap-2 items-center justify-center">
-                                    <Link href="#">
-                                        <Trash2 />
-                                    </Link>
-                                    <Link href="#">
+                                    <Link href={`/admin/tour/${tour.id}`}>
                                         <Pencil />
                                     </Link>
                                 </div>
