@@ -12,4 +12,9 @@ class Tour extends Model
         'description',
         'created_at'
     ];
+
+    public function tourPackages()
+    {
+        return $this->hasMany(TourPackage::class);
+    }
 }

@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('tour_packages', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
-            $table->foreignId("tours")->constrained('tours')->onDelete('cascade'); 
+            $table->foreignId("tour_id")->constrained('tours')->onDelete('cascade'); 
             $table->string("title");
             $table->string("description");
             $table->unsignedInteger("price");

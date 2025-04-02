@@ -39,15 +39,15 @@ Route::post('/admin/login',[LoginController::class, "authenticate"] );
 
 Route::post('/admin/logout',[LoginController::class, "unauthenticate"] );
 
-Route::get('/admin/dashboard', function(){
-    return Inertia::render('Admin/Dashboard');
-})->middleware('auth');
 
 // butuh akses admin
 Route::middleware('auth')->group(function(){
+    Route::get('/admin/dashboard', function(){
+        return Inertia::render('Admin/Dashboard');
+    });
     Route::get('/admin/blog', [BlogController::class, "index"]);
     Route::get('/admin/blog/create',[BlogController::class, "createBlogScreen"]);
-    Route::get('/admin/tour', [TourController::class, "index"]);
+    Route::get( '/admin/tour', [TourController::class, "index"]);
     
     Route::post('/admin/blog/create', [BlogController::class, "createBlog"]);
     Route::post('/admin/tour/create', [TourController::class, "createTour"]);

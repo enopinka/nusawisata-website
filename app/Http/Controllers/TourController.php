@@ -6,12 +6,15 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 use App\Models\Tour;
+use App\Models\TourPackage;
 
 
 class TourController extends Controller
 {
     public function index(){
-        return Inertia::render('Admin/Tour/Tours');
+        $tours = Tour::with('tourPackages')->get();
+
+        return Inertia::render('Admin/Tour/Tours', ['tours'=>$tours]);
     }
 
     public function createTour(Request $request){
