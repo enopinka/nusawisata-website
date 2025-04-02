@@ -11,13 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('tour_packages', function (Blueprint $table) {
+        Schema::create('rents_package', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
-            $table->foreignId("tours")->constrained('tours')->onDelete('cascade'); 
-            $table->string("title");
-            $table->string("description");
-            $table->unsignedInteger("price");
         });
     }
 
@@ -26,6 +22,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('tour_packages');
+        Schema::dropIfExists('rents_package');
     }
 };
