@@ -18,7 +18,7 @@ class BlogController extends Controller
     }
     
     public function createBlogScreen(){
-        return Inertia::render("Admin/Blog/Create");
+        return Inertia::render("Admin/Blog/Editor");
     }
 
     public function createBlog(Request $request){
@@ -59,14 +59,40 @@ class BlogController extends Controller
     return redirect('admin/blog')->with('success', 'Blog berhasil dihapus');
     }
 
-    public function editBlog()  {
+    public function editBlogScreen($slug)  {
+        $blog = Blog::where('slug', $slug)->first();
+
+        return Inertia::render("Admin/Blog/Editor", ['blog'=>$blog]) ;      
+    }
+
+    public function editBlog(Request $request, $id)
+    {
+        if (!Auth::check()) {
+            return response()->json([
+                "message" => "Unauthorized. Please log in first."
+            ], 401);
+        }
+
+        $request->validate([
+            "title" => "required",
+            "content" => "required",
+        ]);
         
+        $blog = Blog::findOrFail($id);
+
+        $blog->slug = null; 
+        $blog->title = $request->title;
+        $blog->content = $request->content;
+        $blog->save();
+
+        return redirect('/admin/blog')->with('success', 'Blog berhasil diperbarui');
     }
 
     public function getBlogHome(){
         $blogs=Blog::take(9)->get();
         return Inertia::render("Home", ['blogs'=>$blogs]);
     }
+
     public function getAllBlog(){
         $blogs=Blog::all();
         return Inertia::render("Blog", ['blogs'=>$blogs]);
@@ -76,4 +102,6 @@ class BlogController extends Controller
         $blog=Blog::where('slug', $slug)->firstOrFail();
         return Inertia::render("BlogPost", ['blog'=>$blog]);
     }
+
+    
 }

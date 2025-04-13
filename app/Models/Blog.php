@@ -28,4 +28,9 @@ class Blog extends Model
             ]
         ];
     }
+
+    public function shouldSlugOnUpdate(): bool
+    {
+        return true;
+    }
 }

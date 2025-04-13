@@ -27,12 +27,22 @@ const formSchema = z.object({
     }),
 });
 
-export default function Create() {
+type EditProps = {
+    blog?: {
+        title?: string;
+        content?: string;
+        id?: number;
+    };
+};
+
+export default function Editor({ blog }: EditProps) {
+    console.log(blog?.title);
+
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
-            title: "",
-            content: "",
+            title: blog?.title ? blog.title : "",
+            content: blog?.content ? blog.content : "",
         },
     });
 
@@ -40,16 +50,24 @@ export default function Create() {
     function onSubmit(values: z.infer<typeof formSchema>) {
         // Do something with the form values.
         // ✅ This will be type-safe and validated.
-        console.log(values);
+        console.log(blog);
 
-        router.post("/admin/blog/create", values, {
-            onSuccess: () => {
-                console.log("berhasil menambahkan blog baru");
-            },
-            onError: (e) => {
-                console.log(e);
-            },
-        });
+        if (blog) {
+            router.put(`/admin/blog/edit/${blog.id}`, values, {
+                onSuccess: () => {
+                    console.log("berhasil mengedit");
+                },
+            });
+        } else {
+            router.post("/admin/blog/create", values, {
+                onSuccess: () => {
+                    console.log("berhasil menambahkan blog baru");
+                },
+                onError: (e) => {
+                    console.log(e);
+                },
+            });
+        }
     }
 
     return (
@@ -91,7 +109,7 @@ export default function Create() {
                                 </FormItem>
                             )}
                         />
-                        <Button type="submit">Submit</Button>
+                        <Button type="submit">{blog ? "Edit" : "Kirim"}</Button>
                     </form>
                 </Form>
             </AdminLayout>

@@ -13,6 +13,7 @@ import { Eye, Pencil, Plus, Trash2 } from "lucide-react";
 
 type Blog = {
     id: number;
+    slug: string;
     title: string;
     content: string;
     created_at: string;
@@ -79,7 +80,13 @@ export default function Blogs({ blogs }: BlogsProps) {
                                                 <button className="">
                                                     <Eye size={20} />
                                                 </button>
-                                                <button>
+                                                <button
+                                                    onClick={() =>
+                                                        router.get(
+                                                            `/admin/blog/edit/${blog.slug}`
+                                                        )
+                                                    }
+                                                >
                                                     <Pencil size={20} />
                                                 </button>
 
