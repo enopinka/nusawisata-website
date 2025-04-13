@@ -64,6 +64,8 @@ const formSchema = z.object({
 
 export default function Tours({ tours }: ToursProps) {
     const [dialogOpen, setDialogOpen] = useState(false);
+    const [isEdit, setIsEdit] = useState(false);
+    const [editId, setEditId] = useState<number | null>(null);
 
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
@@ -76,23 +78,40 @@ export default function Tours({ tours }: ToursProps) {
     function onSubmit(values: z.infer<typeof formSchema>) {
         // Do something with the form values.
         // ✅ This will be type-safe and validated.
-        console.log(values);
-
-        router.post("/admin/tour/create", values, {
-            onSuccess: () => {
-                console.log("berhasil menambahkan tour baru");
-                setDialogOpen(false);
-            },
-            onError: (e) => {
-                console.log(e);
-            },
-        });
+        if (isEdit && editId !== null) {
+            router.put(`/admin/tour/edit/${editId}`, values, {
+                onSuccess: () => {
+                    console.log("berhasil menyunting tour");
+                    setDialogOpen(false);
+                    setEditId(null);
+                },
+            });
+        } else {
+            router.post("/admin/tour/create", values, {
+                onSuccess: () => {
+                    console.log("berhasil menambahkan tour baru");
+                    setDialogOpen(false);
+                },
+                onError: (e) => {
+                    console.log(e);
+                },
+            });
+        }
     }
 
     return (
         <>
             <AdminLayout>
-                <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
+                <Dialog
+                    open={dialogOpen}
+                    onOpenChange={(open) => {
+                        setDialogOpen(open);
+                        if (!open) {
+                            setIsEdit(false);
+                            setEditId(null);
+                        }
+                    }}
+                >
                     <DialogTrigger asChild>
                         <Button>
                             {" "}
@@ -135,14 +154,15 @@ export default function Tours({ tours }: ToursProps) {
                                             <FormControl>
                                                 <Input {...field} />
                                             </FormControl>
-
                                             <FormMessage />
                                         </FormItem>
                                     )}
                                 />
 
                                 <DialogFooter>
-                                    <Button type="submit">Submit</Button>
+                                    <Button type="submit">
+                                        {isEdit ? "Edit" : "Buat"}
+                                    </Button>
                                 </DialogFooter>
                             </form>
                         </Form>
@@ -153,26 +173,44 @@ export default function Tours({ tours }: ToursProps) {
                     <p className="text-lg font-montserrat font-semibold">
                         Daftar Paket
                     </p>
+
                     {tours.map((tour) => (
                         <Card key={tour.id} className="my-2">
                             <CardHeader className="flex flex-row justify-between">
-                                <div className="space-y-2">
-                                    {" "}
-                                    <CardTitle>{tour.title}</CardTitle>
-                                    <CardDescription>
-                                        {tour.description}
-                                    </CardDescription>
-                                </div>
+                                <Link href={`/admin/tour/${tour.id}`}>
+                                    <div className="space-y-2 border">
+                                        {" "}
+                                        <CardTitle>{tour.title}</CardTitle>
+                                        <CardDescription>
+                                            {tour.description}
+                                        </CardDescription>
+                                    </div>
+                                </Link>
                                 <div className="flex gap-2 items-center justify-center">
-                                    <Link href={`/admin/tour/${tour.id}`}>
+                                    <button
+                                        onClick={() => {
+                                            setDialogOpen(!dialogOpen);
+                                            setIsEdit(true);
+                                            setEditId(tour.id);
+                                            form.reset({
+                                                title: tour.title,
+                                                description: tour.description,
+                                            });
+                                        }}
+                                    >
+                                        {" "}
                                         <Pencil />
-                                    </Link>
+                                    </button>
                                 </div>
                             </CardHeader>
                             {tour.tour_packages.length > 0 ? (
                                 tour.tour_packages.map((tour_package) => (
                                     <CardContent key={tour_package.id}>
                                         <hr />
+                                        <div className="flex justify-between my-4">
+                                            <p>{tour_package.title}</p>
+                                            <p>Rp {tour_package.price}</p>
+                                        </div>
                                     </CardContent>
                                 ))
                             ) : (

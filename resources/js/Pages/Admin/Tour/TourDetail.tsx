@@ -1,6 +1,12 @@
 import Tiptap from "@/Components/editor/Tiptap";
 import { Button } from "@/components/ui/button";
 import {
+    Card,
+    CardDescription,
+    CardHeader,
+    CardTitle,
+} from "@/Components/ui/card";
+import {
     Dialog,
     DialogContent,
     DialogDescription,
@@ -20,7 +26,7 @@ import {
 import { Input } from "@/components/ui/input";
 import AdminLayout from "@/Layouts/AdminLayout";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { router } from "@inertiajs/react";
+import { Link, router } from "@inertiajs/react";
 import { Plus } from "lucide-react";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
@@ -173,6 +179,26 @@ export default function TourDetail({
                             </Form>
                         </DialogContent>
                     </Dialog>
+                </div>
+                <div className="grid grid-cols-3 gap-4 my-4">
+                    {tour_packages.map((item) => (
+                        <Card className="" key={item.id}>
+                            <img
+                                src="https://flowbite.s3.amazonaws.com/docs/gallery/square/image.jpg"
+                                className="w-full rounded-t-lg"
+                            />
+                            <CardHeader>
+                                <CardTitle className="hover:underline">
+                                    {item.title}
+                                </CardTitle>
+                                <CardDescription
+                                    dangerouslySetInnerHTML={{
+                                        __html: item.description,
+                                    }}
+                                ></CardDescription>
+                            </CardHeader>
+                        </Card>
+                    ))}
                 </div>
             </AdminLayout>
         </>

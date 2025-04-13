@@ -77,5 +77,26 @@ class TourController extends Controller
         return redirect('/admin/tour/'.$request->id)->with('succes', 'Paket baru telah ditambahkan');
     }
 
+    public function editTour(Request $request, $id){
+        if (!Auth::check()) {
+            return response()->json([
+                "message" => "Unauthorized. Please log in first."
+            ], 401);
+        }
+
+        $request->validate([
+            "title" => "required",
+            "description" => "required",
+        ]);
+
+        $tour = Tour::findOrFail($id);
+        
+        $tour->update([
+            'title' => $request->input('title'),
+            'description' => $request->input('description'),
+        ]);
+        return redirect('/admin/tour')->with('success', 'Tour telah diedit');
+    
+    }
 
 }

@@ -88,6 +88,7 @@ class BlogController extends Controller
         return redirect('/admin/blog')->with('success', 'Blog berhasil diperbarui');
     }
 
+   
     public function getBlogHome(){
         $blogs=Blog::take(9)->get();
         return Inertia::render("Home", ['blogs'=>$blogs]);
