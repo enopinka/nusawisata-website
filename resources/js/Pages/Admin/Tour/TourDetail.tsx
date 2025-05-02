@@ -197,6 +197,15 @@ export default function TourDetail({
                                     }}
                                 ></CardDescription>
                             </CardHeader>
+                            <Button
+                                onClick={() =>
+                                    router.delete(
+                                        `/admin/tour-package/delete/${item.id}`
+                                    )
+                                }
+                            >
+                                Hapus
+                            </Button>
                         </Card>
                     ))}
                 </div>
