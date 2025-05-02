@@ -59,4 +59,5 @@ Route::middleware('auth')->group(function(){
     Route::put('/admin/tour/edit/{id}', [TourController::class, "editTour"]);
 
     Route::delete('/admin/blog/delete/{id}',[BlogController::class, "deleteBlog"]);
+    Route::delete('/admin/tour/delete/{id}',[TourController::class, "deleteTour"]);
 });

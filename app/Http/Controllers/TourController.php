@@ -99,4 +99,13 @@ class TourController extends Controller
     
     }
 
+    public function deleteTour($id){
+        $tour = Tour::findOrFail($id);
+        $tour_packages = TourPackage::where('tour_id', $id)->delete();
+        $tour->delete();
+       
+        return redirect("admin/tour")->with("Success", "Tour berhasil dihapus");
+
+    }
+
 }

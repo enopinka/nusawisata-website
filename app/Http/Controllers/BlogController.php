@@ -54,7 +54,7 @@ class BlogController extends Controller
         };
         
 
-    $blog->delete();
+        $blog->delete();
 
     return redirect('admin/blog')->with('success', 'Blog berhasil dihapus');
     }

@@ -1,4 +1,15 @@
 import Tiptap from "@/Components/editor/Tiptap";
+import {
+    AlertDialog,
+    AlertDialogAction,
+    AlertDialogCancel,
+    AlertDialogContent,
+    AlertDialogDescription,
+    AlertDialogFooter,
+    AlertDialogHeader,
+    AlertDialogTitle,
+    AlertDialogTrigger,
+} from "@/Components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
 import {
     Card,
@@ -17,6 +28,14 @@ import {
     DialogTrigger,
 } from "@/Components/ui/dialog";
 import {
+    DropdownMenu,
+    DropdownMenuContent,
+    DropdownMenuItem,
+    DropdownMenuLabel,
+    DropdownMenuSeparator,
+    DropdownMenuTrigger,
+} from "@/Components/ui/dropdown-menu";
+import {
     Form,
     FormControl,
     FormField,
@@ -29,7 +48,15 @@ import { Label } from "@/components/ui/label";
 import AdminLayout from "@/Layouts/AdminLayout";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Link, router } from "@inertiajs/react";
-import { Pen, Pencil, Plus, Trash, Trash2 } from "lucide-react";
+import {
+    EllipsisIcon,
+    EllipsisVertical,
+    Pen,
+    Pencil,
+    Plus,
+    Trash,
+    Trash2,
+} from "lucide-react";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -66,6 +93,7 @@ export default function Tours({ tours }: ToursProps) {
     const [dialogOpen, setDialogOpen] = useState(false);
     const [isEdit, setIsEdit] = useState(false);
     const [editId, setEditId] = useState<number | null>(null);
+    const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
 
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
@@ -177,30 +205,89 @@ export default function Tours({ tours }: ToursProps) {
                     {tours.map((tour) => (
                         <Card key={tour.id} className="my-2">
                             <CardHeader className="flex flex-row justify-between">
-                                <Link href={`/admin/tour/${tour.id}`}>
-                                    <div className="space-y-2 border">
-                                        {" "}
-                                        <CardTitle>{tour.title}</CardTitle>
-                                        <CardDescription>
-                                            {tour.description}
-                                        </CardDescription>
-                                    </div>
-                                </Link>
+                                <div className="space-y-2">
+                                    {" "}
+                                    <CardTitle>{tour.title}</CardTitle>
+                                    <CardDescription>
+                                        {tour.description}
+                                    </CardDescription>
+                                </div>
+
                                 <div className="flex gap-2 items-center justify-center">
-                                    <button
-                                        onClick={() => {
-                                            setDialogOpen(!dialogOpen);
-                                            setIsEdit(true);
-                                            setEditId(tour.id);
-                                            form.reset({
-                                                title: tour.title,
-                                                description: tour.description,
-                                            });
-                                        }}
-                                    >
-                                        {" "}
-                                        <Pencil />
-                                    </button>
+                                    <DropdownMenu>
+                                        <DropdownMenuTrigger className="border-none">
+                                            <EllipsisVertical />
+                                        </DropdownMenuTrigger>
+                                        <DropdownMenuContent>
+                                            <DropdownMenuLabel>
+                                                Opsi
+                                            </DropdownMenuLabel>
+                                            <DropdownMenuSeparator />
+                                            <DropdownMenuItem
+                                                onSelect={() =>
+                                                    router.get(
+                                                        `/admin/tour/${tour.id}`
+                                                    )
+                                                }
+                                            >
+                                                Lihat Detail
+                                            </DropdownMenuItem>
+                                            <DropdownMenuItem
+                                                onSelect={() => {
+                                                    setDialogOpen(true);
+                                                    setIsEdit(true);
+                                                    setEditId(tour.id);
+                                                    form.reset({
+                                                        title: tour.title,
+                                                        description:
+                                                            tour.description,
+                                                    });
+                                                }}
+                                            >
+                                                Edit
+                                            </DropdownMenuItem>
+                                            <AlertDialog>
+                                                <AlertDialogTrigger asChild>
+                                                    <DropdownMenuItem
+                                                        onSelect={(e) => {
+                                                            e.preventDefault();
+                                                        }}
+                                                    >
+                                                        Hapus
+                                                    </DropdownMenuItem>
+                                                </AlertDialogTrigger>
+                                                <AlertDialogContent>
+                                                    <AlertDialogHeader>
+                                                        <AlertDialogTitle>
+                                                            Yakin ingin
+                                                            menghapus?
+                                                        </AlertDialogTitle>
+                                                        <AlertDialogDescription>
+                                                            Tindakan akan
+                                                            menghapus seluruh
+                                                            isi paket dan tidak
+                                                            dapat dikembalikan
+                                                            lagi.
+                                                        </AlertDialogDescription>
+                                                    </AlertDialogHeader>
+                                                    <AlertDialogFooter>
+                                                        <AlertDialogCancel>
+                                                            Batal
+                                                        </AlertDialogCancel>
+                                                        <AlertDialogAction
+                                                            onClick={() =>
+                                                                router.delete(
+                                                                    `/admin/tour/delete/${tour.id}`
+                                                                )
+                                                            }
+                                                        >
+                                                            Hapus
+                                                        </AlertDialogAction>
+                                                    </AlertDialogFooter>
+                                                </AlertDialogContent>
+                                            </AlertDialog>
+                                        </DropdownMenuContent>
+                                    </DropdownMenu>
                                 </div>
                             </CardHeader>
                             {tour.tour_packages.length > 0 ? (
@@ -215,7 +302,8 @@ export default function Tours({ tours }: ToursProps) {
                                 ))
                             ) : (
                                 <CardContent>
-                                    <p className="text-slate-500 text-center">
+                                    <hr />
+                                    <p className="text-slate-500 text-center my-4">
                                         Tidak ada paket
                                     </p>
                                 </CardContent>
