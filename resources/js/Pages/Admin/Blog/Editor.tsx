@@ -1,4 +1,4 @@
-import AdminDashboard from "@/Layouts/AdminDashboardLayout";
+import AdminLayout from "@/Layouts/AdminLayout";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -16,27 +16,33 @@ import {
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/Components/ui/textarea";
 import { router } from "@inertiajs/react";
+import Tiptap from "@/Components/editor/Tiptap";
 
 const formSchema = z.object({
     title: z.string().min(2, {
         message: "title must be at least 2 characters.",
     }),
-    content: z
-        .string()
-        .min(10, {
-            message: "content must be at least 10 characters.",
-        })
-        .max(160, {
-            message: "content must not be longer than 30 characters.",
-        }),
+    content: z.string().min(10, {
+        message: "content must be at least 10 characters.",
+    }),
 });
 
-export default function Create() {
+type EditProps = {
+    blog?: {
+        title?: string;
+        content?: string;
+        id?: number;
+    };
+};
+
+export default function Editor({ blog }: EditProps) {
+    console.log(blog?.title);
+
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
-            title: "",
-            content: "",
+            title: blog?.title ? blog.title : "",
+            content: blog?.content ? blog.content : "",
         },
     });
 
@@ -44,21 +50,29 @@ export default function Create() {
     function onSubmit(values: z.infer<typeof formSchema>) {
         // Do something with the form values.
         // ✅ This will be type-safe and validated.
-        console.log(values);
+        console.log(blog);
 
-        router.post("/admin/blog/create", values, {
-            onSuccess: () => {
-                console.log("berhasil menambahkan blog baru");
-            },
-            onError: (e) => {
-                console.log(e);
-            },
-        });
+        if (blog) {
+            router.put(`/admin/blog/edit/${blog.id}`, values, {
+                onSuccess: () => {
+                    console.log("berhasil mengedit");
+                },
+            });
+        } else {
+            router.post("/admin/blog/create", values, {
+                onSuccess: () => {
+                    console.log("berhasil menambahkan blog baru");
+                },
+                onError: (e) => {
+                    console.log(e);
+                },
+            });
+        }
     }
 
     return (
         <>
-            <AdminDashboard>
+            <AdminLayout>
                 <Form {...form}>
                     <form
                         onSubmit={form.handleSubmit(onSubmit)}
@@ -85,24 +99,20 @@ export default function Create() {
                                 <FormItem>
                                     <FormLabel>content</FormLabel>
                                     <FormControl>
-                                        <Textarea
-                                            placeholder="Tell us a little bit about yourself"
-                                            className="resize-none"
-                                            {...field}
+                                        <Tiptap
+                                            content={field.value}
+                                            onChange={field.onChange}
                                         />
                                     </FormControl>
-                                    <FormDescription>
-                                        You can <span>@mention</span> other
-                                        users and organizations.
-                                    </FormDescription>
+
                                     <FormMessage />
                                 </FormItem>
                             )}
                         />
-                        <Button type="submit">Submit</Button>
+                        <Button type="submit">{blog ? "Edit" : "Kirim"}</Button>
                     </form>
                 </Form>
-            </AdminDashboard>
+            </AdminLayout>
         </>
     );
 }

@@ -1,11 +1,11 @@
-import AdminDashboard from "@/Layouts/AdminDashboardLayout";
+import AdminLayout from "@/Layouts/AdminLayout";
 
 export default function Home() {
     return (
         <>
-            <AdminDashboard>
+            <AdminLayout>
                 <p>Ini halaman admin</p>
-            </AdminDashboard>
+            </AdminLayout>
         </>
     );
 }

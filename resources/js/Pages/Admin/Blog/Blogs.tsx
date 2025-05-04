@@ -7,12 +7,13 @@ import {
     TableHeader,
     TableRow,
 } from "@/Components/ui/table";
-import AdminDashboard from "@/Layouts/AdminDashboardLayout";
+import AdminLayout from "@/Layouts/AdminLayout";
 import { Link, router } from "@inertiajs/react";
 import { Eye, Pencil, Plus, Trash2 } from "lucide-react";
 
 type Blog = {
     id: number;
+    slug: string;
     title: string;
     content: string;
     created_at: string;
@@ -28,7 +29,7 @@ export default function Blogs({ blogs }: BlogsProps) {
     console.log(blogs);
     return (
         <>
-            <AdminDashboard>
+            <AdminLayout>
                 <p>Ini halaman blogs</p>
                 <Button className="my-4">
                     <Link
@@ -79,7 +80,13 @@ export default function Blogs({ blogs }: BlogsProps) {
                                                 <button className="">
                                                     <Eye size={20} />
                                                 </button>
-                                                <button>
+                                                <button
+                                                    onClick={() =>
+                                                        router.get(
+                                                            `/admin/blog/edit/${blog.slug}`
+                                                        )
+                                                    }
+                                                >
                                                     <Pencil size={20} />
                                                 </button>
 
@@ -110,7 +117,7 @@ export default function Blogs({ blogs }: BlogsProps) {
                         </TableBody>
                     </Table>
                 </div>
-            </AdminDashboard>
+            </AdminLayout>
         </>
     );
 }

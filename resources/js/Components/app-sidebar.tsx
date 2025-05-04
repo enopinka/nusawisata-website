@@ -36,7 +36,7 @@ const items = [
     },
     {
         title: "Paket Wisata",
-        url: "#",
+        url: "/admin/tour",
         icon: TreePalm,
     },
     {

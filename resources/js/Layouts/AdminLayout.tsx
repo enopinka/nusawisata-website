@@ -2,7 +2,7 @@ import { SidebarProvider, SidebarTrigger } from "@/Components/ui/sidebar";
 import { AppSidebar } from "@/Components/app-sidebar";
 import React from "react";
 
-export default function AdminDashboard({
+export default function AdminLayout({
     children,
 }: Readonly<{ children: React.ReactNode }>) {
     return (
