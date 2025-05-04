@@ -14,6 +14,10 @@ return new class extends Migration
         Schema::create('rents_package', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
+            $table->foreignId("rent_id")->constrained('rents')->onDelete('cascade'); 
+            $table->string("title");
+            $table->string("description");
+            $table->unsignedInteger("price");
         });
     }
 

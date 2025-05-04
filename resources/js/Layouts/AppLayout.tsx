@@ -1,4 +1,4 @@
-import { Button } from "@/Components/ui/button";
+import { Button } from "@/components/ui/button";
 import {
     NavigationMenu,
     NavigationMenuContent,
@@ -29,7 +29,7 @@ export default function App({
     return (
         <>
             {/* navbar aplikasi */}
-            <div className="bg-custom-blue bg-opacity-75 h-16 w-full fixed top-0 shadow-md z-50 backdrop-blur">
+            <div className="bg-custom-blue bg-opacity-75 h-16 w-full fixed top-0 shadow-md z-50 backdrop-blur ">
                 <div className="flex justify-between items-center h-16 container">
                     <Link href="/" className="flex gap-2 items-center">
                         <img
@@ -54,8 +54,8 @@ export default function App({
                                                 <NavigationMenuTrigger className="text-custom-cream font-jost bg-transparent hover:bg-none hover:underline">
                                                     {menu.title}
                                                 </NavigationMenuTrigger>
-                                                <NavigationMenuContent className="bg-white rounded-md shadow-lg p-4">
-                                                    <ul className="flex flex-col gap-2">
+                                                <NavigationMenuContent className="bg-white rounded-md shadow-lg p-4 border ">
+                                                    <ul className="flex flex-col gap-2 w-36">
                                                         {menu.children.map(
                                                             (
                                                                 child,
@@ -71,7 +71,7 @@ export default function App({
                                                                         href={
                                                                             child.href
                                                                         }
-                                                                        className="text-sm text-gray-700 hover:text-gray-900 hover:underline"
+                                                                        className=" text-gray-700 hover:text-gray-900  hover:underline"
                                                                     >
                                                                         {
                                                                             child.title
@@ -111,6 +111,47 @@ export default function App({
                 {/* children */}
                 {children}
             </div>
+
+            <footer className="h-60 bg-custom-blue text-white relative">
+                <div className="flex justify-between mx-8 py-8 relative">
+                    <div className="">
+                        <div className="absolute bottom-4 font-montserrat font-bold text-[40px] text-custom-cream flex flex-col">
+                            <p>PRATAMA</p>
+                            <p>NUSA WISATA</p>
+                        </div>
+                    </div>
+                    <div className="flex gap-16">
+                        <div className="space-y-8 font-jost text-[20px] font-semibold">
+                            <p>Hubungi Kami:</p>
+
+                            <div>
+                                <p>email@gmail.com</p>
+                                <p>+628123456789</p>
+                                <p>@instagram</p>
+                            </div>
+                        </div>
+                        <div className="space-y-8 font-jost text-[20px] font-semibold">
+                            <p>Hubungi Kami:</p>
+
+                            <div>
+                                <p>email@gmail.com</p>
+                                <p>+628123456789</p>
+                                <p>@instagram</p>
+                            </div>
+                        </div>
+                        <div className="space-y-8 font-jost text-[20px] font-semibold">
+                            <p>Hubungi Kami:</p>
+
+                            <div>
+                                <p>email@gmail.com</p>
+                                <p>+628123456789</p>
+                                <p>@instagram</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <hr className="mx-8" />
+            </footer>
         </>
     );
 }

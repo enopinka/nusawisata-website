@@ -7,6 +7,7 @@ import {
 } from "@/Components/ui/card";
 import AppLayout from "@/Layouts/AppLayout";
 import { Link } from "@inertiajs/react";
+import { ChevronRight } from "lucide-react";
 
 type Blog = {
     id: number;
@@ -25,12 +26,12 @@ export default function Home({ blogs }: BlogsProps) {
                 {/* hero section */}
 
                 <section>
-                    <div className="relative h-screen bg-[url('/images/hero.jpg')] bg-center bg-cover w-full border border-black overflow-hidden flex items-end">
+                    <div className="relative h-screen bg-[url('/images/hero.jpg')] bg-center bg-cover w-full  border-black overflow-hidden flex items-end">
                         {/* Overlay */}
                         <div className="absolute inset-0 bg-gray-700/30"></div>
 
                         {/* Konten */}
-                        <div className="relative font-montserrat text-white text-[70px] font-bold mx-8 flex flex-col mb-10">
+                        <div className="relative font-montserrat text-white text-[70px] font-bold mx-8 flex flex-col mb-10 container">
                             <p>Lorem ipsum</p>
                             <p>dolor sit amet minim!</p>
                         </div>
@@ -39,101 +40,157 @@ export default function Home({ blogs }: BlogsProps) {
 
                 {/* blogs section */}
                 <section className="h-full w-full bg-custom-cream">
-                    <div className="mx-8 py-8 grid grid-cols-2 md:grid-cols-3 gap-4">
-                        {blogs.map((blog) => (
-                            <div
-                                key={blog.id}
-                                className="relative group rounded-lg overflow-hidden"
-                            >
-                                <img
-                                    className="h-auto max-w-full rounded-lg transition duration-300"
-                                    src="https://flowbite.s3.amazonaws.com/docs/gallery/square/image.jpg"
-                                    alt=""
-                                />
-                                <div className="absolute inset-0 bg-gray-700 opacity-0 group-hover:opacity-30 transition duration-300"></div>
-                                <div className="m-4 absolute inset-0 flex flex-col items-start justify-end opacity-0 group-hover:opacity-100 transition duration-300 space-y-2">
-                                    <p className="text-white font-semibold text-2xl font-montserrat">
-                                        {blog.title}
-                                    </p>
-                                    <p className="text-white font-montserrat">
-                                        Ini deskripsi tapi belom dibikin
-                                        kolomnya di database jadi ya begini dulu
-                                        ya. soalnya aneh kalo title doang
-                                    </p>
+                    <div className="max-w-6xl mx-auto py-8">
+                        <div className="space-y-4">
+                            <p className="font-montserrat text-3xl text-custom-blue font-extrabold">
+                                Blog Kami
+                            </p>
+                            <p className="font-jost  text-custom-blue text-lg">
+                                Temukan berbagai artikel informatif, tips
+                                perjalanan, dan cerita seru seputar destinasi
+                                wisata terbaik dari kami.
+                            </p>
+                        </div>
+                        <div className="py-8 grid grid-cols-2 md:grid-cols-3 gap-4">
+                            {blogs.map((blog) => (
+                                <div
+                                    key={blog.id}
+                                    className="relative group rounded-lg overflow-hidden"
+                                >
+                                    <img
+                                        className="h-auto max-w-full rounded-lg transition duration-300"
+                                        src="https://flowbite.s3.amazonaws.com/docs/gallery/square/image.jpg"
+                                        alt=""
+                                    />
+                                    <div className="absolute inset-0 bg-gray-700 opacity-0 group-hover:opacity-30 transition duration-300"></div>
+                                    <div className="m-4 absolute inset-0 flex flex-col items-start justify-end opacity-0 group-hover:opacity-100 transition duration-300 space-y-2">
+                                        <p className="text-white font-semibold text-2xl font-montserrat">
+                                            {blog.title}
+                                        </p>
+                                        <p className="text-white font-montserrat">
+                                            Ini deskripsi tapi belom dibikin
+                                            kolomnya di database jadi ya begini
+                                            dulu ya. soalnya aneh kalo title
+                                            doang
+                                        </p>
+                                    </div>
                                 </div>
+                            ))}
+                        </div>
+                        <Link
+                            href="/blog"
+                            className="w-full flex justify-end items-center gap-1 hover:underline"
+                        >
+                            <p className="text-xl text-right font-semibold font-jost flex">
+                                Lihat Lainnya
+                            </p>
+                            <div className="">
+                                <ChevronRight size={24} />
                             </div>
-                        ))}
+                        </Link>
                     </div>
                 </section>
                 {/* service section */}
-                <section className="bg-custom-blue h-[800px]">
-                    <div className="text-white mx-8 py-16">
-                        <p className="font-montserrat text-[48px] font-extrabold">
-                            Layanan perjalanan
-                        </p>
-                        <p className="font-montserrat text-[48px] font-extrabold">
-                            terfavorit
-                        </p>
-                        <p className="font-jost text-[24px]">
-                            Lorem ipsum dolor sit amet, consectetur adipiscing
-                            elit!
-                        </p>
+                <section className="bg-custom-blue h-fit">
+                    <div className="max-w-6xl mx-auto py-8">
+                        <div className="text-custom-cream space-y-4 my-8">
+                            <div>
+                                <p className="font-montserrat text-3xl font-extrabold">
+                                    Layanan perjalanan
+                                </p>
+                                <p className="font-montserrat text-3xl font-extrabold">
+                                    terfavorit
+                                </p>
+                            </div>
+                            <p className="font-jost text-lg">
+                                Lorem ipsum dolor sit amet, consectetur
+                                adipiscing elit!
+                            </p>
+                        </div>
+                        <div className="flex gap-6 my-8">
+                            {Array.from({ length: 3 }).map((_, index) => (
+                                <Card
+                                    key={index}
+                                    className="bg-custom-cream h-72"
+                                >
+                                    <CardHeader>
+                                        <CardTitle>Card Title</CardTitle>
+                                        <CardDescription>
+                                            Card Description
+                                        </CardDescription>
+                                    </CardHeader>
+                                    <CardContent>
+                                        <p>
+                                            Lorem ipsum dolor sit amet
+                                            consectetur adipisicing elit.
+                                            Obcaecati nulla eligendi recusandae
+                                            at impedit tenetur similique commodi
+                                            quae consequatur, placeat porro,
+                                            quasi id, omnis autem.
+                                        </p>
+                                    </CardContent>
+                                </Card>
+                            ))}
+                        </div>
+                        <Link
+                            href="/tour-package"
+                            className="w-full flex justify-end items-center gap-1 hover:underline text-custom-cream"
+                        >
+                            <p className="text-xl text-right font-semibold font-jost flex">
+                                Lihat Lainnya
+                            </p>
+                            <div className="">
+                                <ChevronRight size={24} />
+                            </div>
+                        </Link>
                     </div>
-                    <div className="flex gap-6 mx-8">
-                        <Card className="bg-custom-cream h-72">
-                            <CardHeader>
-                                <CardTitle>Card Title</CardTitle>
-                                <CardDescription>
-                                    Card Description
-                                </CardDescription>
-                            </CardHeader>
-                            <CardContent>
-                                <p>
-                                    Lorem ipsum dolor sit amet consectetur
-                                    adipisicing elit. Obcaecati nulla eligendi
-                                    recusandae at impedit tenetur similique
-                                    commodi quae consequatur, placeat porro,
-                                    quasi id, omnis autem.
-                                </p>
-                            </CardContent>
-                        </Card>
-                        <Card className="bg-custom-cream h-72">
-                            <CardHeader>
-                                <CardTitle>Card Title</CardTitle>
-                                <CardDescription>
-                                    Card Description
-                                </CardDescription>
-                            </CardHeader>
-                            <CardContent>
-                                <p>
-                                    Lorem ipsum dolor sit amet consectetur
-                                    adipisicing elit. Obcaecati nulla eligendi
-                                    recusandae at impedit tenetur similique
-                                    commodi quae consequatur, placeat porro,
-                                    quasi id, omnis autem.
-                                </p>
-                            </CardContent>
-                        </Card>
-                        <Card className="bg-custom-cream h-72">
-                            <CardHeader>
-                                <CardTitle>Card Title</CardTitle>
-                                <CardDescription>
-                                    Card Description
-                                </CardDescription>
-                            </CardHeader>
-                            <CardContent>
-                                <p>
-                                    Lorem ipsum dolor sit amet consectetur
-                                    adipisicing elit. Obcaecati nulla eligendi
-                                    recusandae at impedit tenetur similique
-                                    commodi quae consequatur, placeat porro,
-                                    quasi id, omnis autem.
-                                </p>
-                            </CardContent>
-                        </Card>
-                    </div>
-                    <div className="font-montserrat font-extrabold text-[24px] text-white my-12 mx-8 flex justify-end">
-                        <p>Lihat lainnya</p>
+                </section>
+                <section className="h-fit bg-custom-cream">
+                    <div className="max-w-6xl mx-auto py-8">
+                        <div className="space-y-4">
+                            {" "}
+                            <p className="font-montserrat text-3xl text-custom-blue font-extrabold">
+                                Sewa Kendaraan
+                            </p>
+                            <p className="font-jost  text-custom-blue text-lg">
+                                Nikmati kemudahan perjalanan dengan layanan sewa
+                                kendaraan kami—beragam pilihan armada untuk
+                                setiap kebutuhan Anda.
+                            </p>
+                        </div>
+                        <div className="my-8 grid grid-cols-2 gap-4">
+                            {Array.from({ length: 4 }).map((_, index) => (
+                                <Card key={index} className="flex">
+                                    <img
+                                        src="/images/bus.jpeg"
+                                        className="rounded-md p-2"
+                                    />
+                                    <div>
+                                        <CardHeader>
+                                            <CardTitle>Bus Nyaman</CardTitle>
+                                        </CardHeader>
+                                        <CardContent>
+                                            Bus nyaman dengan kapasitas 30–45
+                                            penumpang, dilengkapi AC, reclining
+                                            seat, audio video, dan bagasi luas.
+                                            Cocok untuk perjalanan wisata
+                                            rombongan.
+                                        </CardContent>
+                                    </div>
+                                </Card>
+                            ))}
+                        </div>
+                        <Link
+                            href="/rental"
+                            className="w-full flex justify-end items-center gap-1 hover:underline"
+                        >
+                            <p className="text-xl text-right font-semibold font-jost flex">
+                                Lihat Lainnya
+                            </p>
+                            <div className="">
+                                <ChevronRight size={24} />
+                            </div>
+                        </Link>
                     </div>
                 </section>
                 {/* apalah section */}
@@ -176,48 +233,8 @@ export default function Home({ blogs }: BlogsProps) {
                     </div>
                 </section>
                 {/* apalah lagi section */}
-                <section className="h-screen bg-custom-cream"></section>
+
                 {/* footer */}
-                <footer className="h-60 bg-custom-blue text-white relative">
-                    <div className="flex justify-between mx-8 py-8 relative">
-                        <div className="">
-                            <div className="absolute bottom-4 font-montserrat font-bold text-[40px] text-custom-cream flex flex-col">
-                                <p>PRATAMA</p>
-                                <p>NUSA WISATA</p>
-                            </div>
-                        </div>
-                        <div className="flex gap-16">
-                            <div className="space-y-8 font-jost text-[20px] font-semibold">
-                                <p>Hubungi Kami:</p>
-
-                                <div>
-                                    <p>email@gmail.com</p>
-                                    <p>+628123456789</p>
-                                    <p>@instagram</p>
-                                </div>
-                            </div>
-                            <div className="space-y-8 font-jost text-[20px] font-semibold">
-                                <p>Hubungi Kami:</p>
-
-                                <div>
-                                    <p>email@gmail.com</p>
-                                    <p>+628123456789</p>
-                                    <p>@instagram</p>
-                                </div>
-                            </div>
-                            <div className="space-y-8 font-jost text-[20px] font-semibold">
-                                <p>Hubungi Kami:</p>
-
-                                <div>
-                                    <p>email@gmail.com</p>
-                                    <p>+628123456789</p>
-                                    <p>@instagram</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <hr className="mx-8" />
-                </footer>
             </AppLayout>
         </>
     );
