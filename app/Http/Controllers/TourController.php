@@ -11,7 +11,7 @@ use App\Models\TourPackage;
 
 class TourController extends Controller
 {
-    public function index(){
+    public function tourListScreen(){
         $tours = Tour::with('tourPackages')->get();
 
         return Inertia::render('Admin/Tour/Tours', ['tours'=>$tours]);
@@ -116,4 +116,24 @@ class TourController extends Controller
         return redirect('admin/tour/'.$tour_id)->with("Success", "Berhasil menghapus paket wisata");
     }
 
+    public function guestToursScreen(){
+        $tours = Tour::with('tourPackages')->get()->map(function ($tour) {
+            return [
+                'id' => $tour->id,
+                'title' => $tour->title,
+                'description' => $tour->description,
+                'tourPackages' => $tour->tourPackages->map(function ($pkg) {
+                    return [
+                        'title' => $pkg->title,
+                        'description' => $pkg->description,
+                        'price' => $pkg->price,
+                    ];
+                }),
+            ];
+        });
+    
+        return Inertia::render('TourPackage', [
+            'tours' => $tours,
+        ]);
+    }
 }

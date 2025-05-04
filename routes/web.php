@@ -9,34 +9,24 @@ use Inertia\Inertia;
 use App\Http\Controllers\LoginController;
 
 Route::get('/', [BlogController::class, "getBlogHome"]);
-
-Route::get('tour-package', function(){
-    return Inertia::render('TourPackage');
-});
-
+Route::get('tour-package', [TourController::class, "guestToursScreen"]);
 Route::get('rental', function(){
     return Inertia::render('Rental');
 });
-
 Route::get('about', function(){
     return Inertia::render('About');
 });
-
 Route::get('blog', 
 [BlogController::class, "getAllBlog"]);
-
 Route::get('blog/{slug}', 
 [BlogController::class, "getAPost"]);
-
 Route::get('portfolio', function(){
     return Inertia::render('Portfolio');
 });
-
 Route::get('/admin/login', [LoginController::class, "index"]
 )->name("login");
 
 Route::post('/admin/login',[LoginController::class, "authenticate"] );
-
 Route::post('/admin/logout',[LoginController::class, "unauthenticate"] );
 
 
@@ -48,7 +38,7 @@ Route::middleware('auth')->group(function(){
     Route::get('/admin/blog', [BlogController::class, "index"]);
     Route::get('/admin/blog/create',[BlogController::class, "createBlogScreen"]);
     Route::get('/admin/blog/edit/{id}',[BlogController::class, "editBlogScreen"]);
-    Route::get( '/admin/tour', [TourController::class, "index"]);
+    Route::get( '/admin/tour', [TourController::class, "tourListScreen"]);
     Route::get( '/admin/tour/{id}', [TourController::class, "tourDetailsScreen"]);
     
     Route::post('/admin/blog/create', [BlogController::class, "createBlog"]);
