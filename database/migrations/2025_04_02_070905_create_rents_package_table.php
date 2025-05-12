@@ -11,10 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('rents_package', function (Blueprint $table) {
+        Schema::create('rent_packages', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
-            $table->foreignId("rent_id")->constrained('rents')->onDelete('cascade'); 
+            $table->foreignId("rent_id")->constrained('rents')->onDelete('cascade');
             $table->string("title");
             $table->string("description");
             $table->unsignedInteger("price");

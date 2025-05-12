@@ -41,7 +41,7 @@ const items = [
     },
     {
         title: "Sewa Kendaraan",
-        url: "#",
+        url: "/admin/rent",
         icon: Car,
     },
 ];
