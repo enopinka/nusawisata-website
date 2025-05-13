@@ -8,7 +8,7 @@ class RentPackage extends Model
 {
     protected $fillable = [
         "id",
-        "tour_id",
+        "rent_id",
         "title",
         "description",
         "price",

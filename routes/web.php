@@ -47,11 +47,13 @@ Route::middleware('auth')->group(function () {
     Route::get('/admin/tour', [TourController::class, "tourListScreen"]);
     Route::get('/admin/tour/{id}', [TourController::class, "tourDetailsScreen"]);
     Route::get('/admin/rent', [RentController::class, "rentListScreen"]);
+    Route::get('/admin/rent/{id}', [RentController::class, "rentDetailsScreen"]);
 
     Route::post('/admin/blog/create', [BlogController::class, "createBlog"]);
     Route::post('/admin/tour/create', [TourController::class, "createTour"]);
     Route::post('/admin/rent/create', [RentController::class, "createRent"]);
     Route::post('/admin/tour/add-package', [TourController::class, "addPackage"]);
+    Route::post('/admin/rent/add-package', [RentController::class, "addPackage"]);
 
     Route::put('/admin/blog/edit/{id}', [BlogController::class, "editBlog"]);
     Route::put('/admin/tour/edit/{id}', [TourController::class, "editTour"]);
@@ -61,4 +63,5 @@ Route::middleware('auth')->group(function () {
     Route::delete('/admin/tour/delete/{id}', [TourController::class, "deleteTour"]);
     Route::delete('/admin/rent/delete/{id}', [RentController::class, "deleteRent"]);
     Route::delete('/admin/tour-package/delete/{id}', [TourController::class, "deleteTourPackage"]);
+    Route::delete('/admin/rent-package/delete/{id}', [RentController::class, "deleteRentPackage"]);
 });
