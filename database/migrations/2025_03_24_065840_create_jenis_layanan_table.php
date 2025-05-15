@@ -11,13 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('rent_packages', function (Blueprint $table) {
+        Schema::create('jenis_layanan', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
-            $table->foreignId("rent_id")->constrained('rents')->onDelete('cascade');
+            $table->foreignId("destinasi_id")->constrained('destinasi')->onDelete('cascade');
             $table->string("title");
             $table->string("description");
             $table->unsignedInteger("price");
+            $table->string('image');
         });
     }
 
@@ -26,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('rents_package');
+        Schema::dropIfExists('jenis_layanan');
     }
 };
