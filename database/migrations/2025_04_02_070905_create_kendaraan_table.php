@@ -4,21 +4,26 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
-{
+return new class extends Migration {
     /**
      * Run the migrations.
      */
     public function up(): void
     {
-        Schema::create('kendaraan', function (Blueprint $table) {
-            $table->id();
+        Schema::create("kendaraan", function (Blueprint $table) {
+            $table->id("id_kendaraan");
             $table->timestamps();
-            $table->foreignId("jenis_kendaraan_id")->constrained('jenis_kendaraan')->onDelete('cascade');
+            $table
+                ->foreignId("id_jenis_kendaraan")
+                ->constrained(
+                    table: "jenis_kendaraan",
+                    column: "id_jenis_kendaraan"
+                )
+                ->cascadeOnDelete();
             $table->string("title");
             $table->string("description");
             $table->unsignedInteger("price");
-            $table->string('image');
+            $table->string("image");
         });
     }
 
@@ -27,6 +32,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('kendaraan');
+        Schema::dropIfExists("kendaraan");
     }
 };

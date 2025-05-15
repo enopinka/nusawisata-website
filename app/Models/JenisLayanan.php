@@ -4,9 +4,10 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class TourPackage extends Model
+class JenisLayanan extends Model
 {
-    protected $fillable=[
+    protected $table = "jenis_layanan";
+    protected $fillable = [
         "id",
         "tour_id",
         "title",
