@@ -9,7 +9,7 @@ import {
     AlertDialogTitle,
     AlertDialogTrigger,
 } from "@/Components/ui/alert-dialog";
-import { Button } from "@/components/ui/button";
+import { Button } from "@/Components/ui/button";
 import {
     Card,
     CardContent,
@@ -42,7 +42,7 @@ import {
     FormLabel,
     FormMessage,
 } from "@/Components/ui/form";
-import { Input } from "@/components/ui/input";
+import { Input } from "@/Components/ui/input";
 import AdminLayout from "@/Layouts/AdminLayout";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { router } from "@inertiajs/react";
@@ -214,7 +214,7 @@ export default function Rents({ rents }: RentsProps) {
                                             <DropdownMenuItem
                                                 onSelect={() =>
                                                     router.get(
-                                                        `/admin/rent/${rent.id}`
+                                                        `/admin/rent/${rent.id}`,
                                                     )
                                                 }
                                             >
@@ -265,7 +265,7 @@ export default function Rents({ rents }: RentsProps) {
                                                         <AlertDialogAction
                                                             onClick={() =>
                                                                 router.delete(
-                                                                    `/admin/rent/delete/${rent.id}`
+                                                                    `/admin/rent/delete/${rent.id}`,
                                                                 )
                                                             }
                                                         >

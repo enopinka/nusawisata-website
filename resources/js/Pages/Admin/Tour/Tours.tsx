@@ -1,4 +1,3 @@
-import Tiptap from "@/Components/editor/Tiptap";
 import {
     AlertDialog,
     AlertDialogAction,
@@ -10,7 +9,7 @@ import {
     AlertDialogTitle,
     AlertDialogTrigger,
 } from "@/Components/ui/alert-dialog";
-import { Button } from "@/components/ui/button";
+import { Button } from "@/Components/ui/button";
 import {
     Card,
     CardContent,
@@ -43,20 +42,11 @@ import {
     FormLabel,
     FormMessage,
 } from "@/Components/ui/form";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
+import { Input } from "@/Components/ui/input";
 import AdminLayout from "@/Layouts/AdminLayout";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Link, router } from "@inertiajs/react";
-import {
-    EllipsisIcon,
-    EllipsisVertical,
-    Pen,
-    Pencil,
-    Plus,
-    Trash,
-    Trash2,
-} from "lucide-react";
+import { router } from "@inertiajs/react";
+import { EllipsisVertical, Plus } from "lucide-react";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -226,7 +216,7 @@ export default function Tours({ tours }: ToursProps) {
                                             <DropdownMenuItem
                                                 onSelect={() =>
                                                     router.get(
-                                                        `/admin/tour/${tour.id}`
+                                                        `/admin/tour/${tour.id}`,
                                                     )
                                                 }
                                             >
@@ -277,7 +267,7 @@ export default function Tours({ tours }: ToursProps) {
                                                         <AlertDialogAction
                                                             onClick={() =>
                                                                 router.delete(
-                                                                    `/admin/tour/delete/${tour.id}`
+                                                                    `/admin/tour/delete/${tour.id}`,
                                                                 )
                                                             }
                                                         >

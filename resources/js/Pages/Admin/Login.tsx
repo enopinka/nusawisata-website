@@ -1,31 +1,30 @@
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
-import { z } from "zod";
-import { Button } from "@/components/ui/button";
+import { Alert, AlertDescription, AlertTitle } from "@/Components/ui/alert";
+import { Button } from "@/Components/ui/button";
+import { Card, CardHeader, CardTitle } from "@/Components/ui/card";
 import {
     Form,
     FormControl,
-    FormDescription,
     FormField,
     FormItem,
     FormLabel,
     FormMessage,
 } from "@/Components/ui/form";
-import { Input } from "@/components/ui/input";
+import { Input } from "@/Components/ui/input";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { router, usePage } from "@inertiajs/react";
-import { Card, CardHeader, CardTitle } from "@/Components/ui/card";
 import { AlertCircle, Eye, EyeOff, X } from "lucide-react";
 import { useState } from "react";
-import { Alert, AlertDescription, AlertTitle } from "@/Components/ui/alert";
-import { error } from "console";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
 
 const formSchema = z.object({
-    email: z.string().min(2, {
-        message: "Email setidaknya memiliki 2 karater",
-    }),
-    password: z.string().min(1, {
-        message: "Password tidak boleh kosong",
-    }),
+    email: z
+        .string({ required_error: "Alamat email tidak boleh kosong!" })
+        .min(1, { message: "Alamat email tidak boleh kosong!" })
+        .email("Alamat email tidak valid!"),
+    password: z
+        .string({ required_error: "Kata sandi tidak boleh kosong!" })
+        .min(1, { message: "Kata sandi tidak boleh kosong!" }),
 });
 
 export default function Login() {
@@ -35,15 +34,10 @@ export default function Login() {
 
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
-        defaultValues: {
-            email: "",
-            password: "",
-        },
-        mode: "onChange",
     });
 
-    function onSubmit(values: z.infer<typeof formSchema>) {
-        router.post("/admin/login", values, {
+    const onSubmit = (values: z.infer<typeof formSchema>) => {
+        router.post(route("admin.login"), values, {
             onSuccess: () => {
                 console.log("berhasil login");
             },
@@ -51,7 +45,7 @@ export default function Login() {
                 console.log(e);
             },
         });
-    }
+    };
     return (
         <>
             {showAlert && errors.password && (
@@ -95,7 +89,7 @@ export default function Login() {
                                 name="email"
                                 render={({ field }) => (
                                     <FormItem>
-                                        <FormLabel>email</FormLabel>
+                                        <FormLabel>Alamat Email</FormLabel>
                                         <FormControl>
                                             <Input {...field} />
                                         </FormControl>
@@ -109,7 +103,7 @@ export default function Login() {
                                 name="password"
                                 render={({ field }) => (
                                     <FormItem>
-                                        <FormLabel>Password</FormLabel>
+                                        <FormLabel>Kata Sandi</FormLabel>
                                         <FormControl>
                                             <div className="relative">
                                                 <Input

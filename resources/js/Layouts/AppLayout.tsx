@@ -1,9 +1,8 @@
-import { Button } from "@/components/ui/button";
+import { Button } from "@/Components/ui/button";
 import {
     NavigationMenu,
     NavigationMenuContent,
     NavigationMenuItem,
-    NavigationMenuLink,
     NavigationMenuList,
     NavigationMenuTrigger,
 } from "@/Components/ui/navigation-menu";
@@ -59,7 +58,7 @@ export default function App({
                                                         {menu.children.map(
                                                             (
                                                                 child,
-                                                                childIndex
+                                                                childIndex,
                                                             ) => (
                                                                 <li
                                                                     key={
@@ -78,7 +77,7 @@ export default function App({
                                                                         }
                                                                     </Link>
                                                                 </li>
-                                                            )
+                                                            ),
                                                         )}
                                                     </ul>
                                                 </NavigationMenuContent>

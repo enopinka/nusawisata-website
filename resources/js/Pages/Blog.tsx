@@ -1,10 +1,3 @@
-import { Button } from "@/components/ui/button";
-import {
-    Card,
-    CardDescription,
-    CardHeader,
-    CardTitle,
-} from "@/Components/ui/card";
 import AppLayout from "@/Layouts/AppLayout";
 import { Link } from "@inertiajs/react";
 
@@ -53,7 +46,7 @@ export default function Blog({ blogs }: BlogsProps) {
                                                 </p>
                                                 <p>
                                                     {new Date(
-                                                        blog.created_at
+                                                        blog.created_at,
                                                     ).toLocaleString("id-ID", {
                                                         day: "numeric",
                                                         month: "long",

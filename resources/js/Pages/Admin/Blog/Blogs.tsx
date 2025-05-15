@@ -1,4 +1,4 @@
-import { Button } from "@/components/ui/button";
+import { Button } from "@/Components/ui/button";
 import {
     Table,
     TableBody,
@@ -83,7 +83,7 @@ export default function Blogs({ blogs }: BlogsProps) {
                                                 <button
                                                     onClick={() =>
                                                         router.get(
-                                                            `/admin/blog/edit/${blog.slug}`
+                                                            `/admin/blog/edit/${blog.slug}`,
                                                         )
                                                     }
                                                 >
@@ -97,13 +97,13 @@ export default function Blogs({ blogs }: BlogsProps) {
                                                             {
                                                                 onSuccess: () =>
                                                                     alert(
-                                                                        "Blogs berhasil dihapus"
+                                                                        "Blogs berhasil dihapus",
                                                                     ),
                                                                 onError: (e) =>
                                                                     alert(
-                                                                        "Gagal: ${e}"
+                                                                        "Gagal: ${e}",
                                                                     ),
-                                                            }
+                                                            },
                                                         )
                                                     }
                                                 >

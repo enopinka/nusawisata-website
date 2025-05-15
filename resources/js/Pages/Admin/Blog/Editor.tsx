@@ -3,20 +3,18 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
-import { Button } from "@/components/ui/button";
+import Tiptap from "@/Components/editor/Tiptap";
+import { Button } from "@/Components/ui/button";
 import {
     Form,
     FormControl,
-    FormDescription,
     FormField,
     FormItem,
     FormLabel,
     FormMessage,
 } from "@/Components/ui/form";
-import { Input } from "@/components/ui/input";
-import { Textarea } from "@/Components/ui/textarea";
+import { Input } from "@/Components/ui/input";
 import { router } from "@inertiajs/react";
-import Tiptap from "@/Components/editor/Tiptap";
 
 const formSchema = z.object({
     title: z.string().min(2, {

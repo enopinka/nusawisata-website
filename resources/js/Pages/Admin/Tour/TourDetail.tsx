@@ -1,5 +1,5 @@
 import Tiptap from "@/Components/editor/Tiptap";
-import { Button } from "@/components/ui/button";
+import { Button } from "@/Components/ui/button";
 import {
     Card,
     CardDescription,
@@ -23,10 +23,10 @@ import {
     FormLabel,
     FormMessage,
 } from "@/Components/ui/form";
-import { Input } from "@/components/ui/input";
+import { Input } from "@/Components/ui/input";
 import AdminLayout from "@/Layouts/AdminLayout";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Link, router } from "@inertiajs/react";
+import { router } from "@inertiajs/react";
 import { Plus } from "lucide-react";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
@@ -200,7 +200,7 @@ export default function TourDetail({
                             <Button
                                 onClick={() =>
                                     router.delete(
-                                        `/admin/tour-package/delete/${item.id}`
+                                        `/admin/tour-package/delete/${item.id}`,
                                     )
                                 }
                             >
