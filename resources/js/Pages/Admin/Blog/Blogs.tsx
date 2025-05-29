@@ -9,7 +9,7 @@ import {
 } from "@/Components/ui/table";
 import AdminLayout from "@/Layouts/AdminLayout";
 import { Link, router } from "@inertiajs/react";
-import { Eye, Pencil, Plus, Trash2 } from "lucide-react";
+import { Eye, Pencil, PenIcon, Trash2 } from "lucide-react";
 
 type Blog = {
     id: number;
@@ -26,20 +26,30 @@ type BlogsProps = {
 };
 
 export default function Blogs({ blogs }: BlogsProps) {
-    console.log(blogs);
     return (
         <>
             <AdminLayout>
-                <p>Ini halaman blogs</p>
-                <Button className="my-4">
-                    <Link
-                        href="/admin/blog/create"
-                        className="flex gap-2 items-center"
-                    >
-                        <Plus />
-                        Create New Blog
-                    </Link>
-                </Button>
+                <div className="space-y-1 flex-1">
+                    <p className="text-3xl font-semibold">Blogs</p>
+                    <p className="text-muted-foreground">
+                        Berikut merupakan daftar blog yang tersedia. Anda dapat
+                        menambahkan, mengedit, atau menghapus konten sesuai
+                        dengan kebutuhan pengelolaan.
+                    </p>
+                </div>
+
+                <div className="flex justify-end">
+                    <Button className="my-4">
+                        <Link
+                            href="/admin/blog/create"
+                            className="flex gap-2 items-center"
+                        >
+                            <PenIcon />
+                            Blog baru
+                        </Link>
+                    </Button>
+                </div>
+
                 <div className="">
                     <Table className="w-full ">
                         <TableHeader>
