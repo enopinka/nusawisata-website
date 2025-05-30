@@ -15,6 +15,7 @@ import {
     LogOut,
     NotebookPenIcon,
     TreePalmIcon,
+    Trophy,
 } from "lucide-react";
 
 const items = [
@@ -37,6 +38,11 @@ const items = [
         title: "Sewa Kendaraan",
         url: "/admin/rent",
         icon: CarIcon,
+    },
+    {
+        title: "Portofolio",
+        url: "/admin/portofolio",
+        icon: Trophy,
     },
 ];
 

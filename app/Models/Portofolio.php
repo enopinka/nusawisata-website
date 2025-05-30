@@ -11,6 +11,7 @@ class Portofolio extends Model
         'id',
         'title',
         'description',
+        'image',
         'created_at',
         'updated_at',
     ];
