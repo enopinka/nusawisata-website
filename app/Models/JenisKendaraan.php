@@ -11,6 +11,6 @@ class JenisKendaraan extends Model
 
     public function rentPackages()
     {
-        return $this->hasMany(Kendaraan::class);
+        return $this->hasMany(Kendaraan::class, "id_jenis_kendaraan", "id");
     }
 }

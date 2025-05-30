@@ -2,17 +2,17 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\JenisKendaraan;
+use App\Models\Kendaraan;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
-use App\Models\Rent;
-use App\Models\RentPackage;
 
 class RentController extends Controller
 {
     public function rentListScreen()
     {
-        $rents = Rent::with('rentPackages')->get();
+        $rents = JenisKendaraan::with('rentPackages')->get();
 
         return Inertia::render("Admin/Rent/Rents", ['rents' => $rents]);
     }
@@ -29,7 +29,7 @@ class RentController extends Controller
             "title" => "required",
             "description" => "required"
         ]);
-        $rent = Rent::create([
+        $rent = JenisKendaraan::create([
             "title" => $request->title,
             "description" => $request->description,
         ]);
@@ -49,7 +49,7 @@ class RentController extends Controller
             "description" => "required",
         ]);
 
-        $rent = Rent::findOrFail($id);
+        $rent = JenisKendaraan::findOrFail($id);
         $rent->update([
             'title' => $request->input('title'),
             'description' => $request->input('description'),
@@ -60,8 +60,8 @@ class RentController extends Controller
 
     public function deleteRent($id)
     {
-        $rent = Rent::findOrFail($id);
-        $rent_packages = RentPackage::where('rent_id', $id)->delete();
+        $rent = JenisKendaraan::findOrFail($id);
+        $rent_packages = Kendaraan::where('rent_id', $id)->delete();
         $rent->delete();
 
         return redirect("admin/rent")->with("Success", "Rent berhasil dihapus");
@@ -69,7 +69,7 @@ class RentController extends Controller
 
     public function rentDetailsScreen($id)
     {
-        $rent = Rent::with('rentPackages')->findOrFail($id);
+        $rent = JenisKendaraan::with('rentPackages')->findOrFail($id);
 
         // dd($rent->rent_packages);
         return Inertia::render('Admin/Rent/RentDetail', [
@@ -96,7 +96,7 @@ class RentController extends Controller
         ]);
         // dd($request->id);
 
-        $package = RentPackage::create([
+        $package = Kendaraan::create([
             "title" => $request->title,
             "description" => $request->description,
             "price" => $request->price,
@@ -109,7 +109,7 @@ class RentController extends Controller
     public function deleteRentPackage($id)
     {
 
-        $rent_package = RentPackage::findOrFail($id);
+        $rent_package = Kendaraan::findOrFail($id);
         $rent_id = $rent_package->rent_id;
         $rent_package->delete();
 

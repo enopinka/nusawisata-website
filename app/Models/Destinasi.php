@@ -11,6 +11,6 @@ class Destinasi extends Model
 
     public function tourPackages()
     {
-        return $this->hasMany(JenisLayanan::class);
+        return $this->hasMany(JenisLayanan::class, "id_destinasi", "id");
     }
 }

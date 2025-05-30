@@ -9,7 +9,7 @@ class JenisLayanan extends Model
     protected $table = "jenis_layanan";
     protected $fillable = [
         "id",
-        "tour_id",
+        "id_destinasi",
         "title",
         "description",
         "price",
@@ -19,6 +19,6 @@ class JenisLayanan extends Model
 
     public function tour()
     {
-        return $this->belongsTo(Tour::class, "tours");
+        return $this->belongsTo(Destinasi::class, "id_destinasi", "id");
     }
 }

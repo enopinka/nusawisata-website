@@ -9,7 +9,7 @@ class Kendaraan extends Model
     protected $table = "kendaraan";
     protected $fillable = [
         "id",
-        "rent_id",
+        "id_jenis_kendaraan",
         "title",
         "description",
         "price",
@@ -19,6 +19,6 @@ class Kendaraan extends Model
 
     public function Rent()
     {
-        return $this->belongsTo(Rent::class, "rents");
+        return $this->belongsTo(JenisKendaraan::class, "id_jenis_kendaraan", "id");
     }
 }

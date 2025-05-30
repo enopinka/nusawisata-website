@@ -2,18 +2,18 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Destinasi;
+use App\Models\JenisLayanan;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
-use App\Models\Tour;
-use App\Models\TourPackage;
 
 
 class TourController extends Controller
 {
     public function tourListScreen()
     {
-        $tours = Tour::with('tourPackages')->get();
+        $tours = Destinasi::with('tourPackages')->get();
 
         return Inertia::render('Admin/Tour/Tours', ['tours' => $tours]);
     }
@@ -32,7 +32,7 @@ class TourController extends Controller
             "description" => "required"
         ]);
 
-        $tour = Tour::create([
+        $tour = Destinasi::create([
             "title" => $request->title,
             "description" => $request->description,
         ]);
@@ -42,7 +42,7 @@ class TourController extends Controller
 
     public function tourDetailsScreen($id)
     {
-        $tour = Tour::with('tourPackages')->findOrFail($id);
+        $tour = Destinasi::with('tourPackages')->findOrFail($id);
 
         return Inertia::render('Admin/Tour/TourDetail', [
             'id' => $tour->id,
@@ -69,7 +69,7 @@ class TourController extends Controller
 
 
 
-        $package = TourPackage::create([
+        $package = JenisLayanan::create([
             "title" => $request->title,
             "description" => $request->description,
             "price" => $request->price,
@@ -92,7 +92,7 @@ class TourController extends Controller
             "description" => "required",
         ]);
 
-        $tour = Tour::findOrFail($id);
+        $tour = Destinasi::findOrFail($id);
 
         $tour->update([
             'title' => $request->input('title'),
@@ -103,8 +103,8 @@ class TourController extends Controller
 
     public function deleteTour($id)
     {
-        $tour = Tour::findOrFail($id);
-        $tour_packages = TourPackage::where('tour_id', $id)->delete();
+        $tour = Destinasi::findOrFail($id);
+        $tour_packages = JenisLayanan::where('tour_id', $id)->delete();
         $tour->delete();
 
         return redirect("admin/tour")->with("Success", "Tour berhasil dihapus");
@@ -112,7 +112,7 @@ class TourController extends Controller
 
     public function deleteTourPackage($id)
     {
-        $tour_package = TourPackage::findOrFail($id);
+        $tour_package = JenisLayanan::findOrFail($id);
         $tour_id = $tour_package->tour_id;
         $tour_package->delete();
 
@@ -121,7 +121,7 @@ class TourController extends Controller
 
     public function guestToursScreen()
     {
-        $tours = Tour::with('tourPackages')->get()->map(function ($tour) {
+        $tours = Destinasi::with('tourPackages')->get()->map(function ($tour) {
             return [
                 'id' => $tour->id,
                 'title' => $tour->title,
