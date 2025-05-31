@@ -45,4 +45,35 @@ class PortofolioController extends Controller
 
         return redirect('admin/portofolio')->with('success', 'Portofolio telah dihapus');
     }
+
+    public function portofolioEditScreen($id)
+    {
+        $portofolio = Portofolio::findOrFail($id);
+        return Inertia::render("Admin/Portofolio/PortofolioEditor", ['portofolio' => $portofolio]);
+    }
+
+    public function portofolioEdit(Request $request, $id)
+    {
+        $request->validate([
+            "title" => "required",
+            "description" => "required",
+            "picture" => "nullable|image|mimes:jpeg,png,jpg,gif,svg"
+        ]);
+
+        $portofolio = Portofolio::findOrFail($id);
+
+        $data = [
+            "title" => $request->title,
+            "description" => $request->description,
+        ];
+
+        if ($request->hasFile('picture')) {
+            $picturePath = $request->file('picture')->store('portofolio', 'public');
+            $data['image'] = $picturePath;
+        }
+
+        $portofolio->update($data);
+
+        return redirect('/admin/portofolio')->with('success', 'Portofolio telah diperbarui');
+    }
 }

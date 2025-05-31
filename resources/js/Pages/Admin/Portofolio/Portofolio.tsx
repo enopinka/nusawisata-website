@@ -91,7 +91,13 @@ export default function Portofolio({ portofolios }: PortofolioProps) {
                                             Opsi
                                         </DropdownMenuLabel>
                                         <DropdownMenuSeparator />
-                                        <DropdownMenuItem>
+                                        <DropdownMenuItem
+                                            onSelect={() => {
+                                                router.get(
+                                                    `/admin/portofolio/edit/${portofolio.id_portofolio}`
+                                                );
+                                            }}
+                                        >
                                             Edit
                                         </DropdownMenuItem>
 

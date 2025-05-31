@@ -13,7 +13,7 @@ import { Toaster } from "@/Components/ui/toaster";
 import AdminLayout from "@/Layouts/AdminLayout";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { router } from "@inertiajs/react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
@@ -23,7 +23,7 @@ type EditProps = {
         title?: string;
         description?: string;
         picture?: FileList;
-        id?: number;
+        id_portofolio?: number;
     };
 };
 
@@ -46,13 +46,11 @@ const formSchema = z.object({
 });
 
 export default function PortofolioEditor({ portofolio }: EditProps) {
-    const [isEdit, setIsEdit] = useState(false);
-
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
-            title: isEdit ? portofolio?.title : "",
-            description: isEdit ? portofolio?.description : "",
+            title: portofolio ? portofolio?.title : "",
+            description: portofolio ? portofolio?.description : "",
             picture: undefined,
         },
     });
@@ -60,29 +58,30 @@ export default function PortofolioEditor({ portofolio }: EditProps) {
     function onSubmit(values: z.infer<typeof formSchema>) {
         // Do something with the form values.
         // ✅ This will be type-safe and validated.
-        console.log(values);
-        if (isEdit && portofolio?.id) {
-            const formData = new FormData();
-            formData.append("title", values.title);
-            formData.append("description", values.description);
-            if (values.picture) {
-                formData.append("picture", values.picture);
-            }
+        const formData = new FormData();
+        formData.append("title", values.title);
+        formData.append("description", values.description);
+        if (values.picture) {
+            formData.append("picture", values.picture);
+        }
+        if (portofolio) {
+            formData.append("_method", "PUT");
 
-            router.put(`/admin/portofolio/edit/${portofolio.id}`, formData, {
-                onSuccess: () => {
-                    toast.success("Event berhasil diperbarui");
-                    console.log("Event berhasil diperbarui");
-                },
-            });
+            router.post(
+                `/admin/portofolio/${portofolio.id_portofolio}`,
+                formData,
+                {
+                    onSuccess: () => {
+                        toast.success("Event berhasil diperbarui");
+                        console.log("Event berhasil diperbarui");
+                    },
+                    onError: (e) => {
+                        toast.error("Gagal memperbarui event");
+                        console.log(e);
+                    },
+                }
+            );
         } else {
-            const formData = new FormData();
-            formData.append("title", values.title);
-            formData.append("description", values.description);
-            if (values.picture) {
-                formData.append("picture", values.picture);
-            }
-
             router.post("/admin/portofolio/create", formData, {
                 onSuccess: () => {
                     toast.success("Berhasil membuat portofolio baru");
@@ -152,7 +151,9 @@ export default function PortofolioEditor({ portofolio }: EditProps) {
                             </FormItem>
                         )}
                     />
-                    <Button type="submit">Buat</Button>
+                    <Button type="submit">
+                        {portofolio ? "Edit" : "Buat"}
+                    </Button>
                 </form>
             </Form>
         </AdminLayout>
