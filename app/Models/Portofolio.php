@@ -7,8 +7,9 @@ use Illuminate\Database\Eloquent\Model;
 class Portofolio extends Model
 {
     protected $table = "portofolio";
+    protected $primaryKey = 'id_portofolio';
     protected $fillable = [
-        'id',
+        'id_portofolio',
         'title',
         'description',
         'image',

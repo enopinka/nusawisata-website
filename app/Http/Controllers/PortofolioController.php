@@ -37,4 +37,12 @@ class PortofolioController extends Controller
 
         return redirect('/admin/portofolio')->with('success', 'Portofolio baru telah dibuat');
     }
+
+    public function portofolioDelete($id)
+    {
+        $portofolio = Portofolio::findOrFail($id);
+        $portofolio->delete();
+
+        return redirect('admin/portofolio')->with('success', 'Portofolio telah dihapus');
+    }
 }

@@ -106,6 +106,7 @@ Route::middleware("auth")->group(function () {
             Route::get("/", [PortofolioController::class, "portofolioListScreen"]);
             Route::get("/create", [PortofolioController::class, "portofolioCreateScreen"]);
             Route::post("/create", [PortofolioController::class, "portofolioCreate"]);
+            Route::delete("/{id}", [PortofolioController::class, "portofolioDelete"]);
         });
     });
 });
