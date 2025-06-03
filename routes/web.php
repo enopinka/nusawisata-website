@@ -12,15 +12,11 @@ use App\Models\Portofolio;
 
 Route::get("/", [BlogController::class, "getBlogHome"]);
 Route::get("tour-package", [TourController::class, "guestToursScreen"]);
-Route::get("rental", function () {
-    return Inertia::render("Rental");
-});
+Route::get("rental", [RentController::class, "guestRentsScreen"]);
 Route::get("about", function () {
     return Inertia::render("About");
 });
-Route::get("portfolio", function () {
-    return Inertia::render("Portfolio");
-});
+Route::get("portfolio", [PortofolioController::class, "guestPortofolioScreen"]);
 
 // public
 // module: blog

@@ -17,7 +17,7 @@ export default function Blog({ blogs }: BlogsProps) {
     return (
         <>
             <AppLayout>
-                <div className="bg-custom-cream py-20 text-custom-blue">
+                <div className="bg-custom-cream py-20 text-custom-blue min-h-screen">
                     <div className="mt-20 max-w-6xl mx-auto ">
                         <div className="my-4 space-y-2">
                             <p className="text-4xl font-montserrat font-bold">
@@ -46,7 +46,7 @@ export default function Blog({ blogs }: BlogsProps) {
                                                 </p>
                                                 <p>
                                                     {new Date(
-                                                        blog.created_at,
+                                                        blog.created_at
                                                     ).toLocaleString("id-ID", {
                                                         day: "numeric",
                                                         month: "long",

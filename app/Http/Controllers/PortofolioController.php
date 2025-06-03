@@ -8,6 +8,12 @@ use Inertia\Inertia;
 
 class PortofolioController extends Controller
 {
+    public function guestPortofolioScreen()
+    {
+        $portofolio = Portofolio::all();
+        // dd($portofolio);
+        return Inertia::render("Portfolio", ['portofolio' => $portofolio]);
+    }
     public function portofolioListScreen()
     {
         $portofolios = Portofolio::all();
