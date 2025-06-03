@@ -6,6 +6,7 @@ import { SidebarProvider, useSidebar } from "@/Components/ui/sidebar";
 import { Toaster } from "@/Components/ui/sonner";
 import { SidebarCloseIcon, SidebarOpenIcon } from "lucide-react";
 import React from "react";
+import { IntlProvider } from "react-intl";
 
 export default function AdminLayout({
     children,
@@ -27,8 +28,8 @@ export default function AdminLayout({
                                 <Label>Nusa Wisata</Label>
                             </div>
                         </div>
-                        <div className="mx-auto max-w-5xl w-full py-6">
-                            {children}
+                        <div className="mx-auto max-w-5xl w-full p-6">
+                            <IntlProvider locale="id">{children}</IntlProvider>
                         </div>
                     </main>
                 </div>

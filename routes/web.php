@@ -59,7 +59,7 @@ Route::middleware("auth")->group(function () {
             Route::delete("/delete/{id}", [
                 BlogController::class,
                 "deleteBlog",
-            ]);
+            ])->name("admin.blog.delete");
         });
 
 
