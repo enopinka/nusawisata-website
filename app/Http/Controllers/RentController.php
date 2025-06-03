@@ -10,6 +10,13 @@ use Inertia\Inertia;
 
 class RentController extends Controller
 {
+    public function guestRentsScreen()
+    {
+
+        $jenisKendaraan = JenisKendaraan::with('rentPackages')->get();
+
+        return Inertia::render("Rental", ['jenisKendaraan' => $jenisKendaraan]);
+    }
     public function rentListScreen()
     {
         $rents = JenisKendaraan::with('rentPackages')->get();
