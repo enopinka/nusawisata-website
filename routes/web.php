@@ -16,9 +16,7 @@ Route::get("rental", [RentController::class, "guestRentsScreen"]);
 Route::get("about", function () {
     return Inertia::render("About");
 });
-Route::get("portfolio", function () {
-    return Inertia::render("Portfolio");
-});
+Route::get("portfolio", [PortofolioController::class, "guestPortofolioScreen"]);
 
 // public
 // module: blog
