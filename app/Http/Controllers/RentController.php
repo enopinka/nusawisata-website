@@ -21,16 +21,12 @@ class RentController extends Controller
     {
         $rents = JenisKendaraan::with('rentPackages')->get();
 
+
         return Inertia::render("Admin/Rent/Rents", ['rents' => $rents]);
     }
 
     public function createRent(Request $request)
     {
-        if (!Auth::check()) {
-            return response()->json([
-                "message" => "Unauthorized. Please log in first."
-            ], 401);
-        }
 
         $request->validate([
             "title" => "required",
@@ -46,11 +42,7 @@ class RentController extends Controller
 
     public function editRent(Request $request, $id)
     {
-        if (!Auth::check()) {
-            return response()->json([
-                "message" => "Unauthorized. Please log in first."
-            ], 401);
-        }
+
         $request->validate([
             "title" => "required",
             "description" => "required",
@@ -78,9 +70,9 @@ class RentController extends Controller
     {
         $rent = JenisKendaraan::with('rentPackages')->findOrFail($id);
 
-        // dd($rent->rent_packages);
+        // dd($rent->rentPackages);
         return Inertia::render('Admin/Rent/RentDetail', [
-            'id' => $rent->id,
+            'id_jenis_kendaraan' => $rent->id_jenis_kendaraan,
             'title' => $rent->title,
             'description' => $rent->description,
             'rent_packages' => $rent->rentPackages,
@@ -89,37 +81,35 @@ class RentController extends Controller
 
     public function addPackage(Request $request)
     {
-        if (!Auth::check()) {
-            return response()->json([
-                "message" => "Unauthorized. Please log in first."
-            ], 401);
-        }
 
         $request->validate([
             'title' => "required",
             'description' => "required",
             'price' => "required",
-            'id' => "required"
+            'id_jenis_kendaraan' => "required",
+            "image" => "nullable|image|mimes:jpeg,png,jpg,gif,svg"
         ]);
-        // dd($request->id);
+        $imagePath = $request->file('image')->store('kendaraan', 'public');
 
         $package = Kendaraan::create([
             "title" => $request->title,
             "description" => $request->description,
             "price" => $request->price,
-            "rent_id" => $request->id
+            "id_jenis_kendaraan" => $request->id_jenis_kendaraan,
+            "image" => $imagePath
         ]);
 
-        return redirect('admin/rent/' . $request->id)->with('Success', 'Paket baru telah ditambahkan');
+        return redirect('admin/rent/' . $request->id_jenis_kendaraan)->with('Success', 'Paket baru telah ditambahkan');
     }
 
     public function deleteRentPackage($id)
     {
 
-        $rent_package = Kendaraan::findOrFail($id);
-        $rent_id = $rent_package->rent_id;
-        $rent_package->delete();
+        $kendaraan = Kendaraan::findOrFail($id);
+        $id_jenis_kendaraan = $kendaraan->id_jenis_kendaraan;
+        // dd($id_jenis_kendaraan);
+        $kendaraan->delete();
 
-        return redirect('admin/rent/' . $rent_id)->with("Success", "Berhasil menghapus");
+        return redirect('admin/rent/' . $id_jenis_kendaraan)->with("Success", "Berhasil menghapus");
     }
 }

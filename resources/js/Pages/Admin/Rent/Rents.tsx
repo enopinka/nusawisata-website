@@ -52,7 +52,7 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 
 type RentPackage = {
-    id: number;
+    id_kendaraan: number;
     title: string;
     description: string;
     price: number;
@@ -60,7 +60,7 @@ type RentPackage = {
 };
 
 type Rent = {
-    id: number;
+    id_jenis_kendaraan: number;
     title: string;
     description: string;
     rent_packages: RentPackage[];
@@ -80,7 +80,6 @@ const formSchema = z.object({
 });
 
 export default function Rents({ rents }: RentsProps) {
-    console.log(rents);
     const [dialogOpen, setDialogOpen] = useState(false);
     const [isEdit, setIsEdit] = useState(false);
     const [editId, setEditId] = useState<number | null>(null);
@@ -191,7 +190,7 @@ export default function Rents({ rents }: RentsProps) {
                 </p>
                 {rents.length > 0 ? (
                     rents.map((rent) => (
-                        <Card key={rent.id} className="my-2">
+                        <Card key={rent.id_jenis_kendaraan} className="my-2">
                             <CardHeader className="flex flex-row justify-between">
                                 <div className="space-y-2">
                                     {" "}
@@ -214,7 +213,7 @@ export default function Rents({ rents }: RentsProps) {
                                             <DropdownMenuItem
                                                 onSelect={() =>
                                                     router.get(
-                                                        `/admin/rent/${rent.id}`,
+                                                        `/admin/rent/${rent.id_jenis_kendaraan}`
                                                     )
                                                 }
                                             >
@@ -224,7 +223,9 @@ export default function Rents({ rents }: RentsProps) {
                                                 onSelect={() => {
                                                     setDialogOpen(true);
                                                     setIsEdit(true);
-                                                    setEditId(rent.id);
+                                                    setEditId(
+                                                        rent.id_jenis_kendaraan
+                                                    );
                                                     form.reset({
                                                         title: rent.title,
                                                         description:
@@ -265,7 +266,7 @@ export default function Rents({ rents }: RentsProps) {
                                                         <AlertDialogAction
                                                             onClick={() =>
                                                                 router.delete(
-                                                                    `/admin/rent/delete/${rent.id}`,
+                                                                    `/admin/rent/delete/${rent.id_jenis_kendaraan}`
                                                                 )
                                                             }
                                                         >
@@ -280,7 +281,9 @@ export default function Rents({ rents }: RentsProps) {
                             </CardHeader>
                             {rent.rent_packages.length > 0 ? (
                                 rent.rent_packages.map((rent_package) => (
-                                    <CardContent key={rent_package.id}>
+                                    <CardContent
+                                        key={rent_package.id_kendaraan}
+                                    >
                                         <hr />
                                         <div className="flex justify-between my-4">
                                             <p>{rent_package.title}</p>

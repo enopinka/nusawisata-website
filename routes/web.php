@@ -82,20 +82,12 @@ Route::middleware("auth")->group(function () {
             Route::get("/", [RentController::class, "rentListScreen"]);
             Route::get("/{id}", [RentController::class, "rentDetailsScreen"]);
             Route::post("/create", [RentController::class, "createRent"]);
-            Route::post("/add-package", [
-                RentController::class,
-                "addPackage",
-            ]);
+            Route::post("/add-package", [RentController::class, "addPackage"]);
             Route::put("/edit/{id}", [RentController::class, "editRent"]);
-            Route::delete("/delete/{id}", [
-                RentController::class,
-                "deleteRent",
-            ]);
+            Route::delete("/delete/{id}", [RentController::class, "deleteRent",]);
+            Route::delete("/package/{id}", [RentController::class, "deleteRentPackage"]);
         });
-        Route::delete("/admin/rent-package/delete/{id}", [
-            RentController::class,
-            "deleteRentPackage",
-        ]);
+
 
         // module: portofolio
         Route::prefix("portofolio")->group(function () {
