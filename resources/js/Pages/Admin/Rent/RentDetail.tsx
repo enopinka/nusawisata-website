@@ -41,6 +41,7 @@ import { router } from "@inertiajs/react";
 import { Plus } from "lucide-react";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
+import { toast } from "sonner";
 import { z } from "zod";
 
 type RentPackage = {
@@ -88,6 +89,8 @@ export default function RentDetail({
     rent_packages,
 }: RentPackagesProps) {
     const [dialogOpen, setDialogOpen] = useState(false);
+    const [isEdit, setIsEdit] = useState(false);
+    const [editId, setEditId] = useState<number | null>(null);
 
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
@@ -110,15 +113,34 @@ export default function RentDetail({
         if (values.image) {
             formData.append("image", values.image);
         }
-        router.post("/admin/rent/add-package", formData, {
-            onSuccess: () => {
-                console.log("berhasil menambahkan paket baru");
-                setDialogOpen(false);
-            },
-            onError: (e) => {
-                console.log(e);
-            },
-        });
+
+        if (isEdit && editId !== null) {
+            formData.append("_method", "PUT");
+            router.post(`/admin/rent/package/${editId}`, formData, {
+                onSuccess: () => {
+                    toast.success("Paket berhasil diperbarui");
+                    setDialogOpen(false);
+                    form.reset();
+                },
+                onError: (e) => {
+                    console.log(e);
+                    toast.error("Gagal memperbarui paket");
+                },
+            });
+            setIsEdit(false);
+        } else {
+            router.post("/admin/rent/add-package", formData, {
+                onSuccess: () => {
+                    toast.success("Paket berhasil ditambahkan");
+                    form.reset();
+                    setDialogOpen(false);
+                },
+                onError: (e) => {
+                    toast.error("Gagal menambahkan paket");
+                    console.log(e);
+                },
+            });
+        }
     }
 
     return (
@@ -130,16 +152,19 @@ export default function RentDetail({
                 </div>
                 <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
                     <DialogTrigger asChild>
-                        <Button onClick={() => setDialogOpen(true)}>
+                        <Button>
                             <Plus /> Tambah Paket
                         </Button>
                     </DialogTrigger>
                     <DialogContent className="sm:max-w-[425px]">
                         <DialogHeader>
-                            <DialogTitle>Tambah Paket</DialogTitle>
+                            <DialogTitle>
+                                {isEdit ? "Edit Paket" : "Tambah Paket"}
+                            </DialogTitle>
                             <DialogDescription>
-                                Silakan tambahkan paket baru sesuai kebutuhan
-                                Anda.
+                                {isEdit
+                                    ? "Silakan perbarui detail paket Anda."
+                                    : "Silakan tambahkan paket baru sesuai kebutuhan Anda."}
                             </DialogDescription>
                         </DialogHeader>
                         <Form {...form}>
@@ -217,7 +242,12 @@ export default function RentDetail({
                                 />
 
                                 <DialogFooter>
-                                    <Button type="submit">Submit</Button>
+                                    <Button
+                                        type="submit"
+                                        disabled={form.formState.isSubmitting}
+                                    >
+                                        {isEdit ? "Edit" : "Submit"}
+                                    </Button>
                                 </DialogFooter>
                             </form>
                         </Form>
@@ -229,7 +259,11 @@ export default function RentDetail({
                         <Card className="p-2" key={item.id_kendaraan}>
                             <div className="flex mb-2">
                                 <img
-                                    src={`/storage/${item.image}`}
+                                    src={
+                                        item.image
+                                            ? `/storage/${item.image}`
+                                            : "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTFrS3DfXBwOlJdjx8cnKEiSIxaPPnoMOgOvGbhNGz_7rY0DiQUcAcMkiCf_5kkpkH7E18&usqp=CAU"
+                                    }
                                     alt={item.title}
                                     className="w-1/3 h-auto rounded-t-lg"
                                 />
@@ -283,7 +317,17 @@ export default function RentDetail({
                                 </AlertDialog>
 
                                 <Button
-                                    onClick={() => setDialogOpen(true)}
+                                    onClick={() => {
+                                        setDialogOpen(true),
+                                            setIsEdit(true),
+                                            setEditId(item.id_kendaraan);
+                                        form.reset({
+                                            title: item.title,
+                                            description: item.description,
+                                            price: item.price,
+                                            image: undefined,
+                                        });
+                                    }}
                                     className="bg-white hover:bg-gray-200 border border-gray-200 text-blue-600"
                                 >
                                     Edit

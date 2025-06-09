@@ -112,4 +112,33 @@ class RentController extends Controller
 
         return redirect('admin/rent/' . $id_jenis_kendaraan)->with("Success", "Berhasil menghapus");
     }
+
+    public function editRentPackage(Request $request, $id)
+    {
+
+        $request->validate([
+            'title' => "required",
+            'description' => "required",
+            'price' => "required",
+            'id_jenis_kendaraan' => "required",
+            "image" => "nullable|image|mimes:jpeg,png,jpg,gif,svg"
+        ]);
+
+        $kendaraan = Kendaraan::findOrFail($id);
+        $imagePath = $kendaraan->image;
+
+        if ($request->hasFile('image')) {
+            $imagePath = $request->file('image')->store('kendaraan', 'public');
+        }
+
+        $kendaraan->update([
+            "title" => $request->title,
+            "description" => $request->description,
+            "price" => $request->price,
+            "id_jenis_kendaraan" => $request->id_jenis_kendaraan,
+            "image" => $imagePath
+        ]);
+
+        return redirect('admin/rent/' . $kendaraan->id_jenis_kendaraan)->with('Success', 'Paket telah diedit');
+    }
 }

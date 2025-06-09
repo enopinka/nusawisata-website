@@ -84,6 +84,7 @@ Route::middleware("auth")->group(function () {
             Route::post("/create", [RentController::class, "createRent"]);
             Route::post("/add-package", [RentController::class, "addPackage"]);
             Route::put("/edit/{id}", [RentController::class, "editRent"]);
+            Route::put("/package/{id}", [RentController::class, "editRentPackage"]);
             Route::delete("/delete/{id}", [RentController::class, "deleteRent",]);
             Route::delete("/package/{id}", [RentController::class, "deleteRentPackage"]);
         });
