@@ -265,7 +265,7 @@ export default function RentDetail({
                                             : "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTFrS3DfXBwOlJdjx8cnKEiSIxaPPnoMOgOvGbhNGz_7rY0DiQUcAcMkiCf_5kkpkH7E18&usqp=CAU"
                                     }
                                     alt={item.title}
-                                    className="w-1/3 h-auto rounded-t-lg"
+                                    className="w-1/3 h-auto rounded"
                                 />
                                 <CardHeader>
                                     <CardTitle className="hover:underline">
@@ -278,60 +278,68 @@ export default function RentDetail({
                                     ></CardDescription>
                                 </CardHeader>
                             </div>
-                            <div className="flex justify-end gap-4">
-                                <AlertDialog>
-                                    <AlertDialogTrigger asChild>
-                                        <Button className="bg-white hover:bg-gray-200 border border-gray-200 text-red-600">
-                                            Hapus
-                                        </Button>
-                                    </AlertDialogTrigger>
-                                    <AlertDialogContent>
-                                        <AlertDialogHeader>
-                                            <AlertDialogTitle>
-                                                Apakah Anda Yakin?
-                                            </AlertDialogTitle>
-                                            <AlertDialogDescription>
-                                                Anda akan menghapus paket{" "}
-                                                {item.title} ini. Tindakan ini
-                                                tidak dapat dibatalkan.
-                                            </AlertDialogDescription>
-                                        </AlertDialogHeader>
-                                        <AlertDialogFooter>
-                                            <AlertDialogCancel>
-                                                Batalkan
-                                            </AlertDialogCancel>
-                                            <AlertDialogAction asChild>
-                                                <Button
-                                                    onClick={() =>
-                                                        router.delete(
-                                                            `/admin/rent/package/${item.id_kendaraan}`
-                                                        )
-                                                    }
-                                                    className="bg-red-600 text-white"
-                                                >
-                                                    Hapus
-                                                </Button>
-                                            </AlertDialogAction>
-                                        </AlertDialogFooter>
-                                    </AlertDialogContent>
-                                </AlertDialog>
+                            <div className="flex justify-between items-center">
+                                <div className="m-2">
+                                    <p>Harga mulai dari</p>
+                                    <p className="text-xl font-semibold">
+                                        Rp {item.price}
+                                    </p>
+                                </div>
+                                <div className="flex justify-end gap-4">
+                                    <AlertDialog>
+                                        <AlertDialogTrigger asChild>
+                                            <Button className="bg-white hover:bg-gray-200 border border-gray-200 text-red-600">
+                                                Hapus
+                                            </Button>
+                                        </AlertDialogTrigger>
+                                        <AlertDialogContent>
+                                            <AlertDialogHeader>
+                                                <AlertDialogTitle>
+                                                    Apakah Anda Yakin?
+                                                </AlertDialogTitle>
+                                                <AlertDialogDescription>
+                                                    Anda akan menghapus paket{" "}
+                                                    {item.title} ini. Tindakan
+                                                    ini tidak dapat dibatalkan.
+                                                </AlertDialogDescription>
+                                            </AlertDialogHeader>
+                                            <AlertDialogFooter>
+                                                <AlertDialogCancel>
+                                                    Batalkan
+                                                </AlertDialogCancel>
+                                                <AlertDialogAction asChild>
+                                                    <Button
+                                                        onClick={() =>
+                                                            router.delete(
+                                                                `/admin/rent/package/${item.id_kendaraan}`
+                                                            )
+                                                        }
+                                                        className="bg-red-600 text-white"
+                                                    >
+                                                        Hapus
+                                                    </Button>
+                                                </AlertDialogAction>
+                                            </AlertDialogFooter>
+                                        </AlertDialogContent>
+                                    </AlertDialog>
 
-                                <Button
-                                    onClick={() => {
-                                        setDialogOpen(true),
-                                            setIsEdit(true),
-                                            setEditId(item.id_kendaraan);
-                                        form.reset({
-                                            title: item.title,
-                                            description: item.description,
-                                            price: item.price,
-                                            image: undefined,
-                                        });
-                                    }}
-                                    className="bg-white hover:bg-gray-200 border border-gray-200 text-blue-600"
-                                >
-                                    Edit
-                                </Button>
+                                    <Button
+                                        onClick={() => {
+                                            setDialogOpen(true),
+                                                setIsEdit(true),
+                                                setEditId(item.id_kendaraan);
+                                            form.reset({
+                                                title: item.title,
+                                                description: item.description,
+                                                price: item.price,
+                                                image: undefined,
+                                            });
+                                        }}
+                                        className="bg-white hover:bg-gray-200 border border-gray-200 text-blue-600"
+                                    >
+                                        Edit
+                                    </Button>
+                                </div>
                             </div>
                         </Card>
                     ))}
