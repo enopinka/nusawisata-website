@@ -52,7 +52,7 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 
 type TourPackage = {
-    id: number;
+    id_jenis_layanan: number;
     title: string;
     description: string;
     price: number;
@@ -60,7 +60,7 @@ type TourPackage = {
 };
 
 type Tour = {
-    id: number;
+    id_destinasi: number;
     title: string;
     description: string;
     tour_packages: TourPackage[];
@@ -77,6 +77,15 @@ const formSchema = z.object({
     description: z.string().min(10, {
         message: "content must be at least 10 characters.",
     }),
+    image: z
+        .custom<FileList>()
+        .transform((file) => file.length > 0 && file.item(0))
+        .refine((file) => !file || (!!file && file.size <= 10 * 1024 * 1024), {
+            message: "The profile picture must be a maximum of 10MB.",
+        })
+        .refine((file) => !file || (!!file && file.type?.startsWith("image")), {
+            message: "Only images are allowed to be sent.",
+        }),
 });
 
 export default function Tours({ tours }: ToursProps) {
@@ -90,12 +99,20 @@ export default function Tours({ tours }: ToursProps) {
         defaultValues: {
             title: "",
             description: "",
+            image: undefined,
         },
     });
 
     function onSubmit(values: z.infer<typeof formSchema>) {
         // Do something with the form values.
         // ✅ This will be type-safe and validated.
+        const formdata = new FormData();
+        formdata.append("title", values.title);
+        formdata.append("description", values.description);
+        if (values.image) {
+            formdata.append("image", values.image);
+        }
+
         if (isEdit && editId !== null) {
             router.put(`/admin/tour/edit/${editId}`, values, {
                 onSuccess: () => {
@@ -105,7 +122,7 @@ export default function Tours({ tours }: ToursProps) {
                 },
             });
         } else {
-            router.post("/admin/tour/create", values, {
+            router.post("/admin/tour/create", formdata, {
                 onSuccess: () => {
                     console.log("berhasil menambahkan tour baru");
                     setDialogOpen(false);
@@ -165,6 +182,25 @@ export default function Tours({ tours }: ToursProps) {
                                 />
                                 <FormField
                                     control={form.control}
+                                    name="image"
+                                    render={({ field }) => (
+                                        <FormItem>
+                                            <FormLabel htmlFor="picture">
+                                                Gambar
+                                            </FormLabel>
+                                            <FormControl>
+                                                <Input
+                                                    id="picture"
+                                                    type="file"
+                                                    {...form.register("image")}
+                                                />
+                                            </FormControl>
+                                            <FormMessage />
+                                        </FormItem>
+                                    )}
+                                />
+                                <FormField
+                                    control={form.control}
                                     name="description"
                                     render={({ field }) => (
                                         <FormItem>
@@ -193,7 +229,7 @@ export default function Tours({ tours }: ToursProps) {
                     </p>
 
                     {tours.map((tour) => (
-                        <Card key={tour.id} className="my-2">
+                        <Card key={tour.id_destinasi} className="my-2">
                             <CardHeader className="flex flex-row justify-between">
                                 <div className="space-y-2">
                                     {" "}
@@ -216,7 +252,7 @@ export default function Tours({ tours }: ToursProps) {
                                             <DropdownMenuItem
                                                 onSelect={() =>
                                                     router.get(
-                                                        `/admin/tour/${tour.id}`,
+                                                        `/admin/tour/${tour.id_destinasi}`
                                                     )
                                                 }
                                             >
@@ -226,7 +262,9 @@ export default function Tours({ tours }: ToursProps) {
                                                 onSelect={() => {
                                                     setDialogOpen(true);
                                                     setIsEdit(true);
-                                                    setEditId(tour.id);
+                                                    setEditId(
+                                                        tour.id_destinasi
+                                                    );
                                                     form.reset({
                                                         title: tour.title,
                                                         description:
@@ -267,7 +305,7 @@ export default function Tours({ tours }: ToursProps) {
                                                         <AlertDialogAction
                                                             onClick={() =>
                                                                 router.delete(
-                                                                    `/admin/tour/delete/${tour.id}`,
+                                                                    `/admin/tour/delete/${tour.id_destinasi}`
                                                                 )
                                                             }
                                                         >
@@ -282,7 +320,9 @@ export default function Tours({ tours }: ToursProps) {
                             </CardHeader>
                             {tour.tour_packages.length > 0 ? (
                                 tour.tour_packages.map((tour_package) => (
-                                    <CardContent key={tour_package.id}>
+                                    <CardContent
+                                        key={tour_package.id_jenis_layanan}
+                                    >
                                         <hr />
                                         <div className="flex justify-between my-4">
                                             <p>{tour_package.title}</p>

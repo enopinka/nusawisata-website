@@ -15,26 +15,28 @@ class TourController extends Controller
     {
         $tours = Destinasi::with('tourPackages')->get();
 
+
         return Inertia::render('Admin/Tour/Tours', ['tours' => $tours]);
     }
 
     public function createTour(Request $request)
     {
-        // Cek apakah user sudah login
-        if (!Auth::check()) {
-            return response()->json([
-                "message" => "Unauthorized. Please log in first."
-            ], 401);
-        }
-
         $request->validate([
             "title" => "required",
-            "description" => "required"
+            "description" => "required",
+            "image" => "image|mimes:jpeg,png,jpg,gif,svg",
         ]);
+
+        $imagePath = null;
+
+        if ($request->hasFile('image')) {
+            $imagePath = $request->file('image')->store('tour', 'public');
+        }
 
         $tour = Destinasi::create([
             "title" => $request->title,
             "description" => $request->description,
+            "image" => $imagePath,
         ]);
 
         return redirect('/admin/tour')->with('success', 'Tour baru telah dibuat');
@@ -45,7 +47,7 @@ class TourController extends Controller
         $tour = Destinasi::with('tourPackages')->findOrFail($id);
 
         return Inertia::render('Admin/Tour/TourDetail', [
-            'id' => $tour->id,
+            'id_destinasi' => $tour->id_destinasi,
             'title' => $tour->title,
             'description' => $tour->description,
             'tour_packages' => $tour->tourPackages
@@ -54,29 +56,30 @@ class TourController extends Controller
 
     public function addPackage(Request $request)
     {
-        if (!Auth::check()) {
-            return response()->json([
-                "message" => "Unauthorized. Please log in first."
-            ], 401);
-        }
 
         $request->validate([
             'title' => "required",
             'description' => "required",
             'price' => "required",
-            'id' => "required"
+            'id_destinasi' => "required",
+            "image" => "image|mimes:jpeg,png,jpg,gif,svg"
         ]);
 
+        $imagePath = null;
 
+        if ($request->hasFile('image')) {
+            $imagePath = $request->file('image')->store('tour', 'public');
+        }
 
         $package = JenisLayanan::create([
             "title" => $request->title,
             "description" => $request->description,
             "price" => $request->price,
-            "tour_id" => $request->id
+            "id_destinasi" => $request->id_destinasi,
+            "image" => $imagePath
         ]);
 
-        return redirect('/admin/tour/' . $request->id)->with('succes', 'Paket baru telah ditambahkan');
+        return redirect('/admin/tour/' . $request->id_destinasi)->with('succes', 'Paket baru telah ditambahkan');
     }
 
     public function editTour(Request $request, $id)
@@ -113,8 +116,9 @@ class TourController extends Controller
     public function deleteTourPackage($id)
     {
         $tour_package = JenisLayanan::findOrFail($id);
-        $tour_id = $tour_package->tour_id;
+        $tour_id = $tour_package->id_destinasi;
         $tour_package->delete();
+
 
         return redirect('admin/tour/' . $tour_id)->with("Success", "Berhasil menghapus paket wisata");
     }

@@ -64,13 +64,14 @@ Route::middleware("auth")->group(function () {
             Route::get("/", [TourController::class, "tourListScreen"]);
             Route::get("/{id}", [TourController::class, "tourDetailsScreen"]);
             Route::post("/create", [TourController::class, "createTour"]);
-            Route::post("/add-package", [TourController::class, "addPackage"]);
+            Route::post("/package", [TourController::class, "addPackage"]);
             Route::put("/edit/{id}", [TourController::class, "editTour"]);
 
             Route::delete("/delete/{id}", [
                 TourController::class,
                 "deleteTour",
             ]);
+            Route::delete("/package/{id}", [TourController::class, "deleteTourPackage"]);
         });
         Route::delete("/admin/tour-package/delete/{id}", [
             TourController::class,
