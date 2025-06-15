@@ -77,8 +77,9 @@ export default function TourDetail({
     tour_packages,
 }: TourPackagesProps) {
     const [dialogOpen, setDialogOpen] = useState(false);
+    const [isEdit, setIsEdit] = useState(false);
+    const [editId, setEditId] = useState<number | null>(null);
 
-    console.log(id_destinasi);
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
@@ -88,7 +89,8 @@ export default function TourDetail({
             image: undefined,
         },
     });
-
+    console.log(isEdit);
+    console.log(editId);
     function onSubmit(values: z.infer<typeof formSchema>) {
         console.log(id_destinasi.toString());
 
@@ -105,16 +107,27 @@ export default function TourDetail({
         for (const pair of formdata.entries()) {
             console.log(`${pair[0]}: ${pair[1]}`);
         }
-        router.post("/admin/tour/package", formdata, {
-            onSuccess: () => {
-                toast.success("berhasil menambahkan paket baru");
-                setDialogOpen(false);
-                form.reset();
-            },
-            onError: (e) => {
-                console.log(e);
-            },
-        });
+        if (isEdit && editId !== null) {
+            formdata.append("_method", "PUT");
+            router.post(`/admin/tour/package/${editId}`, formdata, {
+                onSuccess: () => {
+                    setDialogOpen(false);
+                    toast.success("Berhasil menyunting data!");
+                },
+                onError: (e) => toast.error(e.message),
+            });
+        } else {
+            router.post("/admin/tour/package", formdata, {
+                onSuccess: () => {
+                    toast.success("berhasil menambahkan paket baru");
+                    setDialogOpen(false);
+                    form.reset();
+                },
+                onError: (e) => {
+                    toast.error("Gagal menambahkan paket baru", e);
+                },
+            });
+        }
     }
 
     return (
@@ -218,7 +231,9 @@ export default function TourDetail({
                                     />
 
                                     <DialogFooter>
-                                        <Button type="submit">Submit</Button>
+                                        <Button type="submit">
+                                            {isEdit ? "Edit" : "Submit"}
+                                        </Button>
                                     </DialogFooter>
                                 </form>
                             </Form>
@@ -261,11 +276,16 @@ export default function TourDetail({
                                     {" "}
                                     <Button
                                         className="bg-white border border-gray-200 hover:bg-gray-200 text-blue-600"
-                                        onClick={() =>
-                                            router.delete(
-                                                `/admin/tour-package/delete/${item.id_jenis_layanan}`
-                                            )
-                                        }
+                                        onClick={() => {
+                                            setIsEdit(true);
+                                            setEditId(item.id_jenis_layanan);
+                                            setDialogOpen(true);
+                                            form.reset({
+                                                title: item.title,
+                                                description: item.description,
+                                                price: item.price,
+                                            });
+                                        }}
                                     >
                                         Edit
                                     </Button>

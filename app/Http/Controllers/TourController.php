@@ -7,7 +7,7 @@ use App\Models\JenisLayanan;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
-
+use Illuminate\Support\Facades\Storage;
 
 class TourController extends Controller
 {
@@ -143,5 +143,39 @@ class TourController extends Controller
         return Inertia::render('TourPackage', [
             'tours' => $tours,
         ]);
+    }
+
+    public function editPackage(Request $request, $id)
+    {
+        $request->validate([
+            'title' => 'required',
+            'description' => 'required',
+            'price' => 'required|numeric',
+            'id_destinasi' => 'required',
+            'image' => 'image|mimes:jpeg,png,jpg,gif,svg',
+        ]);
+
+        $tour_package = JenisLayanan::findOrFail($id);
+
+        $dataToUpdate = [
+            'title' => $request->title,
+            'description' => $request->description,
+            'price' => $request->price,
+            'id_destinasi' => $request->id_destinasi,
+        ];
+
+        if ($request->hasFile('image')) {
+            if (!empty($tour_package->image) && Storage::disk('public')->exists($tour_package->image)) {
+                Storage::disk('public')->delete($tour_package->image);
+            }
+
+            $imagePath = $request->file('image')->store('tour', 'public');
+            $dataToUpdate['image'] = $imagePath;
+        }
+
+
+        $tour_package->update($dataToUpdate);
+
+        return redirect('admin/tour/' . $request->id_destinasi)->with("Success", "Berhasil memperbarui paket");
     }
 }

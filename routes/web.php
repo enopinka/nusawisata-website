@@ -66,6 +66,7 @@ Route::middleware("auth")->group(function () {
             Route::post("/create", [TourController::class, "createTour"]);
             Route::post("/package", [TourController::class, "addPackage"]);
             Route::put("/edit/{id}", [TourController::class, "editTour"]);
+            Route::put("/package/{id}", [TourController::class, "editPackage"]);
 
             Route::delete("/delete/{id}", [
                 TourController::class,
