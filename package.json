@@ -3,7 +3,8 @@
     "type": "module",
     "scripts": {
         "build": "tsc && vite build",
-        "dev": "vite"
+        "dev": "vite",
+        "docker:build": "docker build -t nusawisata:latest . --progress=plain --build-arg DUMMY_CACHE_BUST=$(Get-Date -UFormat %s)"
     },
     "devDependencies": {
         "@headlessui/react": "^2.0.0",
