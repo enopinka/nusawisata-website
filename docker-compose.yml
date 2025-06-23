@@ -24,7 +24,7 @@ services:
         image: mysql:8.0.41-debian
         container_name: nusawisata-database
         ports:
-            - "43306:3306"
+            - "3003:3306"
         environment:
             MYSQL_ALLOW_EMPTY_PASSWORD: true
         volumes:
