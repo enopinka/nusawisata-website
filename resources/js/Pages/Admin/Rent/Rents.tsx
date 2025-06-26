@@ -51,23 +51,23 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
-type TourPackage = {
-    id_jenis_layanan: number;
+type RentPackage = {
+    id_kendaraan: number;
     title: string;
     description: string;
     price: number;
     created_at: Date;
 };
 
-type Tour = {
-    id_destinasi: number;
+type Rent = {
+    id_jenis_kendaraan: number;
     title: string;
     description: string;
-    tour_packages: TourPackage[];
+    rent_packages: RentPackage[];
 };
 
-type ToursProps = {
-    tours: Tour[];
+type RentsProps = {
+    rents: Rent[];
 };
 
 const formSchema = z.object({
@@ -77,54 +77,36 @@ const formSchema = z.object({
     description: z.string().min(10, {
         message: "content must be at least 10 characters.",
     }),
-    image: z
-        .custom<FileList>()
-        .transform((file) => file.length > 0 && file.item(0))
-        .refine((file) => !file || (!!file && file.size <= 10 * 1024 * 1024), {
-            message: "The profile picture must be a maximum of 10MB.",
-        })
-        .refine((file) => !file || (!!file && file.type?.startsWith("image")), {
-            message: "Only images are allowed to be sent.",
-        }),
 });
 
-export default function Tours({ tours }: ToursProps) {
+export default function Rents({ rents }: RentsProps) {
     const [dialogOpen, setDialogOpen] = useState(false);
     const [isEdit, setIsEdit] = useState(false);
     const [editId, setEditId] = useState<number | null>(null);
-    const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
 
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
             title: "",
             description: "",
-            image: undefined,
         },
     });
 
     function onSubmit(values: z.infer<typeof formSchema>) {
         // Do something with the form values.
         // ✅ This will be type-safe and validated.
-        const formdata = new FormData();
-        formdata.append("title", values.title);
-        formdata.append("description", values.description);
-        if (values.image) {
-            formdata.append("image", values.image);
-        }
-
         if (isEdit && editId !== null) {
-            router.put(`/admin/tour/edit/${editId}`, values, {
+            router.put(`/admin/rent/edit/${editId}`, values, {
                 onSuccess: () => {
-                    console.log("berhasil menyunting tour");
+                    console.log("berhasil menyunting rental");
                     setDialogOpen(false);
                     setEditId(null);
                 },
             });
         } else {
-            router.post("/admin/tour/create", formdata, {
+            router.post("/admin/rent/create", values, {
                 onSuccess: () => {
-                    console.log("berhasil menambahkan tour baru");
+                    console.log("berhasil menambahkan rental baru");
                     setDialogOpen(false);
                 },
                 onError: (e) => {
@@ -135,107 +117,86 @@ export default function Tours({ tours }: ToursProps) {
     }
 
     return (
-        <>
-            <AdminLayout>
-                <Dialog
-                    open={dialogOpen}
-                    onOpenChange={(open) => {
-                        setDialogOpen(open);
-                        if (!open) {
-                            setIsEdit(false);
-                            setEditId(null);
-                        }
-                    }}
-                >
-                    <DialogTrigger asChild>
-                        <Button>
-                            {" "}
-                            <Plus /> Tambah Paket Wisata
-                        </Button>
-                    </DialogTrigger>
-                    <DialogContent className="sm:max-w-[425px]">
-                        <DialogHeader>
-                            <DialogTitle>Tambah Kelompok Paket</DialogTitle>
-                            <DialogDescription>
-                                Silakan tambahkan kelompok paket baru sesuai
-                                kebutuhan Anda.
-                            </DialogDescription>
-                        </DialogHeader>
-                        <Form {...form}>
-                            <form
-                                onSubmit={form.handleSubmit(onSubmit)}
-                                className="space-y-8"
-                            >
-                                <FormField
-                                    control={form.control}
-                                    name="title"
-                                    render={({ field }) => (
-                                        <FormItem>
-                                            <FormLabel>Judul</FormLabel>
-                                            <FormControl>
-                                                <Input {...field} />
-                                            </FormControl>
+        <AdminLayout>
+            <Dialog
+                open={dialogOpen}
+                onOpenChange={(open) => {
+                    setDialogOpen(open);
+                    if (!open) {
+                        setIsEdit(false);
+                        setEditId(null);
+                    }
+                }}
+            >
+                <DialogTrigger asChild>
+                    <Button>
+                        {" "}
+                        <Plus /> Tambah Paket
+                    </Button>
+                </DialogTrigger>
+                <DialogContent className="sm:max-w-[425px]">
+                    <DialogHeader>
+                        <DialogTitle>Tambah Kelompok Paket</DialogTitle>
+                        <DialogDescription>
+                            Silakan tambahkan kelompok paket baru sesuai
+                            kebutuhan Anda.
+                        </DialogDescription>
+                    </DialogHeader>
+                    <Form {...form}>
+                        <form
+                            onSubmit={form.handleSubmit(onSubmit)}
+                            className="space-y-8"
+                        >
+                            <FormField
+                                control={form.control}
+                                name="title"
+                                render={({ field }) => (
+                                    <FormItem>
+                                        <FormLabel>Judul</FormLabel>
+                                        <FormControl>
+                                            <Input {...field} />
+                                        </FormControl>
 
-                                            <FormMessage />
-                                        </FormItem>
-                                    )}
-                                />
-                                <FormField
-                                    control={form.control}
-                                    name="image"
-                                    render={({ field }) => (
-                                        <FormItem>
-                                            <FormLabel htmlFor="picture">
-                                                Gambar
-                                            </FormLabel>
-                                            <FormControl>
-                                                <Input
-                                                    id="picture"
-                                                    type="file"
-                                                    {...form.register("image")}
-                                                />
-                                            </FormControl>
-                                            <FormMessage />
-                                        </FormItem>
-                                    )}
-                                />
-                                <FormField
-                                    control={form.control}
-                                    name="description"
-                                    render={({ field }) => (
-                                        <FormItem>
-                                            <FormLabel>Deskripsi</FormLabel>
-                                            <FormControl>
-                                                <Input {...field} />
-                                            </FormControl>
-                                            <FormMessage />
-                                        </FormItem>
-                                    )}
-                                />
+                                        <FormMessage />
+                                    </FormItem>
+                                )}
+                            />
+                            <FormField
+                                control={form.control}
+                                name="description"
+                                render={({ field }) => (
+                                    <FormItem>
+                                        <FormLabel>Deskripsi</FormLabel>
+                                        <FormControl>
+                                            <Input {...field} />
+                                        </FormControl>
+                                        <FormMessage />
+                                    </FormItem>
+                                )}
+                            />
 
-                                <DialogFooter>
-                                    <Button type="submit">
-                                        {isEdit ? "Edit" : "Buat"}
-                                    </Button>
-                                </DialogFooter>
-                            </form>
-                        </Form>
-                    </DialogContent>
-                </Dialog>
-
-                <div className="my-4">
-                    <p className="text-lg font-montserrat font-semibold">
-                        Daftar Paket
-                    </p>
-
-                    {tours.map((tour) => (
-                        <Card key={tour.id_destinasi} className="my-2">
+                            <DialogFooter>
+                                <Button type="submit">
+                                    {isEdit ? "Edit" : "Buat"}
+                                </Button>
+                            </DialogFooter>
+                        </form>
+                    </Form>
+                </DialogContent>
+            </Dialog>
+            <div>
+                <p className="text-lg font-montserrat font-semibold my-4">
+                    Daftar Paket Sewa Kendaraan
+                </p>
+                {rents.length > 0 ? (
+                    rents.map((rent) => (
+                        <Card key={rent.id_jenis_kendaraan} className="my-2">
                             <CardHeader className="flex flex-row justify-between">
                                 <div className="space-y-2">
                                     {" "}
-                                    <CardTitle>{tour.title}</CardTitle>
+                                    <CardTitle>{rent.title}</CardTitle>
                                     <CardDescription>
-                                        {tour.description}
+                                        {rent.description}
                                     </CardDescription>
                                 </div>
 
@@ -252,7 +213,7 @@ export default function Tours({ tours }: ToursProps) {
                                             <DropdownMenuItem
                                                 onSelect={() =>
                                                     router.get(
-                                                        `/admin/tour/${tour.id_destinasi}`
+                                                        `/admin/rent/${rent.id_jenis_kendaraan}`
                                                     )
                                                 }
                                             >
@@ -263,12 +224,12 @@ export default function Tours({ tours }: ToursProps) {
                                                     setDialogOpen(true);
                                                     setIsEdit(true);
                                                     setEditId(
-                                                        tour.id_destinasi
+                                                        rent.id_jenis_kendaraan
                                                     );
                                                     form.reset({
-                                                        title: tour.title,
+                                                        title: rent.title,
                                                         description:
-                                                            tour.description,
+                                                            rent.description,
                                                     });
                                                 }}
                                             >
@@ -305,7 +266,7 @@ export default function Tours({ tours }: ToursProps) {
                                                         <AlertDialogAction
                                                             onClick={() =>
                                                                 router.delete(
-                                                                    `/admin/tour/delete/${tour.id_destinasi}`
+                                                                    `/admin/rent/delete/${rent.id_jenis_kendaraan}`
                                                                 )
                                                             }
                                                         >
@@ -318,15 +279,15 @@ export default function Tours({ tours }: ToursProps) {
                                     </DropdownMenu>
                                 </div>
                             </CardHeader>
-                            {tour.tour_packages.length > 0 ? (
-                                tour.tour_packages.map((tour_package) => (
+                            {rent.rent_packages.length > 0 ? (
+                                rent.rent_packages.map((rent_package) => (
                                     <CardContent
-                                        key={tour_package.id_jenis_layanan}
+                                        key={rent_package.id_kendaraan}
                                     >
                                         <hr />
                                         <div className="flex justify-between my-4">
-                                            <p>{tour_package.title}</p>
-                                            <p>Rp {tour_package.price}</p>
+                                            <p>{rent_package.title}</p>
+                                            <p>Rp {rent_package.price}</p>
                                         </div>
                                     </CardContent>
                                 ))
@@ -339,9 +300,11 @@ export default function Tours({ tours }: ToursProps) {
                                 </CardContent>
                             )}
                         </Card>
-                    ))}
-                </div>
-            </AdminLayout>
-        </>
+                    ))
+                ) : (
+                    <div>Tidak ada paket Tersedia</div>
+                )}
+            </div>
+        </AdminLayout>
     );
 }

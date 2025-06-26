@@ -1,5 +1,5 @@
 import Tiptap from "@/Components/editor/Tiptap";
-import { Button } from "@/components/ui/button";
+import { Button } from "@/Components/ui/button";
 import {
     Card,
     CardDescription,
@@ -23,25 +23,27 @@ import {
     FormLabel,
     FormMessage,
 } from "@/Components/ui/form";
-import { Input } from "@/components/ui/input";
+import { Input } from "@/Components/ui/input";
 import AdminLayout from "@/Layouts/AdminLayout";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Link, router } from "@inertiajs/react";
+import { router } from "@inertiajs/react";
 import { Plus } from "lucide-react";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
+import { toast } from "sonner";
 import { z } from "zod";
 
 type TourPackage = {
-    id: number;
+    id_jenis_layanan: number;
     title: string;
     description: string;
     price: number;
+    image: string;
     created_at: Date;
 };
 
 type TourPackagesProps = {
-    id: number;
+    id_destinasi: number;
     title: string;
     description: string;
     tour_packages: TourPackage[];
@@ -57,16 +59,26 @@ const formSchema = z.object({
     price: z.coerce.number().min(1000, {
         message: "Price must be at least 1000.",
     }),
-    id: z.coerce.number(),
+    image: z
+        .custom<FileList>()
+        .transform((file) => file.length > 0 && file.item(0))
+        .refine((file) => !file || (!!file && file.size <= 10 * 1024 * 1024), {
+            message: "The profile picture must be a maximum of 10MB.",
+        })
+        .refine((file) => !file || (!!file && file.type?.startsWith("image")), {
+            message: "Only images are allowed to be sent.",
+        }),
 });
 
 export default function TourDetail({
-    id,
+    id_destinasi,
     title,
     description,
     tour_packages,
 }: TourPackagesProps) {
     const [dialogOpen, setDialogOpen] = useState(false);
+    const [isEdit, setIsEdit] = useState(false);
+    const [editId, setEditId] = useState<number | null>(null);
 
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
@@ -74,23 +86,48 @@ export default function TourDetail({
             title: "",
             description: "",
             price: 0,
-            id: id,
+            image: undefined,
         },
     });
-
+    console.log(isEdit);
+    console.log(editId);
     function onSubmit(values: z.infer<typeof formSchema>) {
+        console.log(id_destinasi.toString());
+
         // Do something with the form values.
         // ✅ This will be type-safe and validated.
-        console.log(values);
-        router.post("/admin/tour/add-package", values, {
-            onSuccess: () => {
-                console.log("berhasil menambahkan paket baru");
-                setDialogOpen(false);
-            },
-            onError: (e) => {
-                console.log(e);
-            },
-        });
+        const formdata = new FormData();
+        formdata.append("title", values.title);
+        formdata.append("description", values.description);
+        formdata.append("price", values.price.toString());
+        formdata.append("id_destinasi", id_destinasi.toString());
+        if (values.image) {
+            formdata.append("image", values.image);
+        }
+        for (const pair of formdata.entries()) {
+            console.log(`${pair[0]}: ${pair[1]}`);
+        }
+        if (isEdit && editId !== null) {
+            formdata.append("_method", "PUT");
+            router.post(`/admin/tour/package/${editId}`, formdata, {
+                onSuccess: () => {
+                    setDialogOpen(false);
+                    toast.success("Berhasil menyunting data!");
+                },
+                onError: (e) => toast.error(e.message),
+            });
+        } else {
+            router.post("/admin/tour/package", formdata, {
+                onSuccess: () => {
+                    toast.success("berhasil menambahkan paket baru");
+                    setDialogOpen(false);
+                    form.reset();
+                },
+                onError: (e) => {
+                    toast.error("Gagal menambahkan paket baru", e);
+                },
+            });
+        }
     }
 
     return (
@@ -154,6 +191,27 @@ export default function TourDetail({
                                     />
                                     <FormField
                                         control={form.control}
+                                        name="image"
+                                        render={({ field }) => (
+                                            <FormItem>
+                                                <FormLabel htmlFor="picture">
+                                                    Gambar
+                                                </FormLabel>
+                                                <FormControl>
+                                                    <Input
+                                                        id="picture"
+                                                        type="file"
+                                                        {...form.register(
+                                                            "image"
+                                                        )}
+                                                    />
+                                                </FormControl>
+                                                <FormMessage />
+                                            </FormItem>
+                                        )}
+                                    />
+                                    <FormField
+                                        control={form.control}
                                         name="description"
                                         render={({ field }) => (
                                             <FormItem>
@@ -173,40 +231,76 @@ export default function TourDetail({
                                     />
 
                                     <DialogFooter>
-                                        <Button type="submit">Submit</Button>
+                                        <Button type="submit">
+                                            {isEdit ? "Edit" : "Submit"}
+                                        </Button>
                                     </DialogFooter>
                                 </form>
                             </Form>
                         </DialogContent>
                     </Dialog>
                 </div>
-                <div className="grid grid-cols-3 gap-4 my-4">
+                <div className="grid grid-cols-2 gap-4 my-4">
                     {tour_packages.map((item) => (
-                        <Card className="" key={item.id}>
-                            <img
-                                src="https://flowbite.s3.amazonaws.com/docs/gallery/square/image.jpg"
-                                className="w-full rounded-t-lg"
-                            />
-                            <CardHeader>
-                                <CardTitle className="hover:underline">
-                                    {item.title}
-                                </CardTitle>
-                                <CardDescription
-                                    dangerouslySetInnerHTML={{
-                                        __html: item.description,
-                                    }}
-                                ></CardDescription>
-                            </CardHeader>
-                            <Button
-                                className="w-full"
-                                onClick={() =>
-                                    router.delete(
-                                        `/admin/tour-package/delete/${item.id}`
-                                    )
-                                }
-                            >
-                                Hapus
-                            </Button>
+                        <Card className="p-2" key={item.id_jenis_layanan}>
+                            <div className="flex mb-2">
+                                {" "}
+                                <img
+                                    src={
+                                        item.image
+                                            ? `/storage/${item.image}`
+                                            : "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTFrS3DfXBwOlJdjx8cnKEiSIxaPPnoMOgOvGbhNGz_7rY0DiQUcAcMkiCf_5kkpkH7E18&usqp=CAU"
+                                    }
+                                    alt={item.title}
+                                    className="w-1/3 h-auto rounded"
+                                />
+                                <CardHeader className="flex flex-col items-start">
+                                    <CardTitle className="">
+                                        {item.title}
+                                    </CardTitle>
+                                    <CardDescription
+                                        dangerouslySetInnerHTML={{
+                                            __html: item.description,
+                                        }}
+                                    ></CardDescription>
+                                </CardHeader>
+                            </div>
+                            <div className="flex justify-between items-center">
+                                <div className="mx-2">
+                                    <p>Harga mulai dari</p>
+                                    <p className="text-xl font-semibold ">
+                                        Rp {item.price}
+                                    </p>
+                                </div>
+                                <div className=" flex gap-4">
+                                    {" "}
+                                    <Button
+                                        className="bg-white border border-gray-200 hover:bg-gray-200 text-blue-600"
+                                        onClick={() => {
+                                            setIsEdit(true);
+                                            setEditId(item.id_jenis_layanan);
+                                            setDialogOpen(true);
+                                            form.reset({
+                                                title: item.title,
+                                                description: item.description,
+                                                price: item.price,
+                                            });
+                                        }}
+                                    >
+                                        Edit
+                                    </Button>
+                                    <Button
+                                        className="bg-white border border-gray-200 hover:bg-gray-200 text-red-600"
+                                        onClick={() =>
+                                            router.delete(
+                                                `/admin/tour/package/${item.id_jenis_layanan}`
+                                            )
+                                        }
+                                    >
+                                        Hapus
+                                    </Button>
+                                </div>
+                            </div>
                         </Card>
                     ))}
                 </div>

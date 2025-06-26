@@ -1,10 +1,3 @@
-import { Button } from "@/components/ui/button";
-import {
-    Card,
-    CardDescription,
-    CardHeader,
-    CardTitle,
-} from "@/Components/ui/card";
 import AppLayout from "@/Layouts/AppLayout";
 import { Link } from "@inertiajs/react";
 
@@ -24,10 +17,9 @@ export default function Blog({ blogs }: BlogsProps) {
     return (
         <>
             <AppLayout>
-                <div className="bg-custom-cream py-20 text-custom-blue">
-                    <div className="mt-20 max-w-6xl mx-auto">
-                    
-                        <div className="my-4 space-y-2 text-center">
+                <div className="bg-custom-cream py-20 text-custom-blue min-h-screen">
+                    <div className="mt-20 max-w-6xl mx-auto ">
+                        <div className="my-4 space-y-2">
                             <p className="text-4xl font-montserrat font-bold">
                                 Blogs
                             </p>

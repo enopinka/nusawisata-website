@@ -11,9 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('users', function (Blueprint $table) {
-            $table->dropTimestamps(); 
-            $table->dropColumn('email_verified_at');
+        Schema::table('portofolio', function (Blueprint $table) {
+            $table->text('description')->change();
         });
     }
 
@@ -22,9 +21,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('users', function (Blueprint $table) {
-            $table->timestamps();
-            $table->dropColumn('email_verified_at');
+        Schema::table('portofolio', function (Blueprint $table) {
+            $table->string('description')->change();
         });
     }
 };

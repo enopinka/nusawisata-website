@@ -2,82 +2,88 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Destinasi;
+use App\Models\JenisLayanan;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
-use App\Models\Tour;
-use App\Models\TourPackage;
-
+use Illuminate\Support\Facades\Storage;
 
 class TourController extends Controller
 {
-    public function tourListScreen(){
-        $tours = Tour::with('tourPackages')->get();
+    public function tourListScreen()
+    {
+        $tours = Destinasi::with('tourPackages')->get();
 
-        return Inertia::render('Admin/Tour/Tours', ['tours'=>$tours]);
+
+        return Inertia::render('Admin/Tour/Tours', ['tours' => $tours]);
     }
 
-    public function createTour(Request $request){
-        // Cek apakah user sudah login
-    if (!Auth::check()) {
-        return response()->json([
-            "message" => "Unauthorized. Please log in first."
-        ], 401);
-    }
+    public function createTour(Request $request)
+    {
+        $request->validate([
+            "title" => "required",
+            "description" => "required",
+            "image" => "image|mimes:jpeg,png,jpg,gif,svg",
+        ]);
 
-    $request->validate([
-        "title"=>"required",
-        "description"=>"required"
-    ]);
+        $imagePath = null;
 
-    $tour = Tour::create([
-        "title"=>$request->title,
-        "description"=>$request->description,
-    ]);
+        if ($request->hasFile('image')) {
+            $imagePath = $request->file('image')->store('tour', 'public');
+        }
 
-    return redirect('/admin/tour')->with('success', 'Tour baru telah dibuat');
+        $tour = Destinasi::create([
+            "title" => $request->title,
+            "description" => $request->description,
+            "image" => $imagePath,
+        ]);
 
+        return redirect('/admin/tour')->with('success', 'Tour baru telah dibuat');
     }
 
     public function tourDetailsScreen($id)
     {
-    $tour = Tour::with('tourPackages')->findOrFail($id);
+        $tour = Destinasi::with('tourPackages')->findOrFail($id);
 
-    return Inertia::render('Admin/Tour/TourDetail', [
-        'id' => $tour->id,
-        'title' => $tour->title,
-        'description' => $tour->description,
-        'tour_packages' => $tour->tourPackages
-    ]);
+        return Inertia::render('Admin/Tour/TourDetail', [
+            'id_destinasi' => $tour->id_destinasi,
+            'title' => $tour->title,
+            'description' => $tour->description,
+            'tour_packages' => $tour->tourPackages
+        ]);
     }
 
-    public function addPackage(Request $request){
-        if (!Auth::check()) {
-            return response()->json([
-                "message" => "Unauthorized. Please log in first."
-            ], 401);
-        }
-        
+    public function addPackage(Request $request)
+    {
+
         $request->validate([
-            'title'=>"required",
-            'description'=>"required",
-            'price'=>"required",
-            'id'=>"required"
+            'title' => "required",
+            'description' => "required",
+            'price' => "required",
+            'id_destinasi' => "required",
+            "image" => "image|mimes:jpeg,png,jpg,gif,svg"
         ]);
 
-     
+        $imagePath = null;
 
-        $package = TourPackage::create([
-                "title"=> $request->title,
-                "description"=> $request->description,
-                "price"=> $request->price,
-                "tour_id"=>$request->id
-            ]);
+        if ($request->hasFile('image')) {
+            $imagePath = $request->file('image')->store('tour', 'public');
+        }
 
-        return redirect('/admin/tour/'.$request->id)->with('succes', 'Paket baru telah ditambahkan');
+        $package = JenisLayanan::create([
+            "title" => $request->title,
+            "description" => $request->description,
+            "price" => $request->price,
+            "id_destinasi" => $request->id_destinasi,
+            "image" => $imagePath
+        ]);
+
+        return redirect('/admin/tour/' . $request->id_destinasi)->with('succes', 'Paket baru telah ditambahkan');
     }
 
-    public function editTour(Request $request, $id){
+    public function editTour(Request $request, $id)
+    {
         if (!Auth::check()) {
             return response()->json([
                 "message" => "Unauthorized. Please log in first."
@@ -89,35 +95,37 @@ class TourController extends Controller
             "description" => "required",
         ]);
 
-        $tour = Tour::findOrFail($id);
-        
+        $tour = Destinasi::findOrFail($id);
+
         $tour->update([
             'title' => $request->input('title'),
             'description' => $request->input('description'),
         ]);
         return redirect('/admin/tour')->with('success', 'Tour telah diedit');
-    
     }
 
-    public function deleteTour($id){
-        $tour = Tour::findOrFail($id);
-        $tour_packages = TourPackage::where('tour_id', $id)->delete();
+    public function deleteTour($id)
+    {
+        $tour = Destinasi::findOrFail($id);
+        $tour_packages = JenisLayanan::where('tour_id', $id)->delete();
         $tour->delete();
-       
+
         return redirect("admin/tour")->with("Success", "Tour berhasil dihapus");
-
     }
 
-    public function deleteTourPackage($id){
-        $tour_package = TourPackage::findOrFail($id);
-        $tour_id = $tour_package->tour_id;
+    public function deleteTourPackage($id)
+    {
+        $tour_package = JenisLayanan::findOrFail($id);
+        $tour_id = $tour_package->id_destinasi;
         $tour_package->delete();
-        
-        return redirect('admin/tour/'.$tour_id)->with("Success", "Berhasil menghapus paket wisata");
+
+
+        return redirect('admin/tour/' . $tour_id)->with("Success", "Berhasil menghapus paket wisata");
     }
 
-    public function guestToursScreen(){
-        $tours = Tour::with('tourPackages')->get()->map(function ($tour) {
+    public function guestToursScreen()
+    {
+        $tours = Destinasi::with('tourPackages')->get()->map(function ($tour) {
             return [
                 'id' => $tour->id,
                 'title' => $tour->title,
@@ -131,9 +139,43 @@ class TourController extends Controller
                 }),
             ];
         });
-    
+
         return Inertia::render('TourPackage', [
             'tours' => $tours,
         ]);
+    }
+
+    public function editPackage(Request $request, $id)
+    {
+        $request->validate([
+            'title' => 'required',
+            'description' => 'required',
+            'price' => 'required|numeric',
+            'id_destinasi' => 'required',
+            'image' => 'image|mimes:jpeg,png,jpg,gif,svg',
+        ]);
+
+        $tour_package = JenisLayanan::findOrFail($id);
+
+        $dataToUpdate = [
+            'title' => $request->title,
+            'description' => $request->description,
+            'price' => $request->price,
+            'id_destinasi' => $request->id_destinasi,
+        ];
+
+        if ($request->hasFile('image')) {
+            if (!empty($tour_package->image) && Storage::disk('public')->exists($tour_package->image)) {
+                Storage::disk('public')->delete($tour_package->image);
+            }
+
+            $imagePath = $request->file('image')->store('tour', 'public');
+            $dataToUpdate['image'] = $imagePath;
+        }
+
+
+        $tour_package->update($dataToUpdate);
+
+        return redirect('admin/tour/' . $request->id_destinasi)->with("Success", "Berhasil memperbarui paket");
     }
 }

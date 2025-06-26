@@ -32,8 +32,8 @@ export default function Home({ blogs }: BlogsProps) {
 
                         {/* Konten */}
                         <div className="relative font-montserrat text-white text-[70px] font-bold mx-8 flex flex-col mb-10 container">
-                            <p>Lorem ipsum</p>
-                            <p>dolor sit amet minim!</p>
+                            <p>Jajah Setiap Sudut Nusantara</p>
+                            <p>Bersama Nusawisata!</p>
                         </div>
                     </div>
                 </section>

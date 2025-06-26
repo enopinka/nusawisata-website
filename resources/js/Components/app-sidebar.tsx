@@ -1,16 +1,4 @@
 import {
-    Calendar,
-    Car,
-    Home,
-    Inbox,
-    LogOut,
-    NotebookPen,
-    Search,
-    Settings,
-    TreePalm,
-} from "lucide-react";
-
-import {
     Sidebar,
     SidebarContent,
     SidebarGroup,
@@ -21,28 +9,40 @@ import {
     SidebarMenuItem,
 } from "@/Components/ui/sidebar";
 import { Link, router } from "@inertiajs/react";
+import {
+    CarIcon,
+    HomeIcon,
+    LogOut,
+    NotebookPenIcon,
+    TreePalmIcon,
+    Trophy,
+} from "lucide-react";
 
-// Menu items.
 const items = [
     {
         title: "Home",
         url: "/admin/dashboard",
-        icon: Home,
+        icon: HomeIcon,
     },
     {
         title: "Blog",
         url: "/admin/blog",
-        icon: NotebookPen,
+        icon: NotebookPenIcon,
     },
     {
         title: "Paket Wisata",
         url: "/admin/tour",
-        icon: TreePalm,
+        icon: TreePalmIcon,
     },
     {
         title: "Sewa Kendaraan",
-        url: "#",
-        icon: Car,
+        url: "/admin/rent",
+        icon: CarIcon,
+    },
+    {
+        title: "Portofolio",
+        url: "/admin/portofolio",
+        icon: Trophy,
     },
 ];
 
@@ -54,6 +54,7 @@ export function AppSidebar() {
                     <SidebarGroupLabel>Nusa Wisata Admin</SidebarGroupLabel>
                     <SidebarGroupContent>
                         <SidebarMenu>
+                            {/* menus */}
                             {items.map((item) => (
                                 <SidebarMenuItem key={item.title}>
                                     <SidebarMenuButton asChild>
@@ -64,6 +65,8 @@ export function AppSidebar() {
                                     </SidebarMenuButton>
                                 </SidebarMenuItem>
                             ))}
+
+                            {/* logout */}
                             <SidebarMenuItem>
                                 <SidebarMenuButton
                                     onClick={() => router.post("/admin/logout")}
