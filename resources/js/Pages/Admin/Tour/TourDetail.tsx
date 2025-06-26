@@ -198,6 +198,7 @@ export default function TourDetail({
                                 ></CardDescription>
                             </CardHeader>
                             <Button
+                                className="w-full"
                                 onClick={() =>
                                     router.delete(
                                         `/admin/tour-package/delete/${item.id}`
