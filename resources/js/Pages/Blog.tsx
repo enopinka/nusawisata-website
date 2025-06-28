@@ -27,7 +27,7 @@ export default function Blog({ blogs }: BlogsProps) {
     return (
         <AppLayout>
             <div className="bg-custom-cream py-20 text-custom-blue min-h-screen">
-                <div className="mt-20 max-w-6xl mx-auto ">
+                <div className="mt-20 max-w-6xl px-4 sm:px-6 lg:px-8 mx-auto">
                     <div className="my-4 space-y-2">
                         <p className="text-4xl font-montserrat font-bold">
                             Blogs
