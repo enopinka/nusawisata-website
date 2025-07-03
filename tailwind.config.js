@@ -86,7 +86,7 @@ export default {
                     ring: "hsl(var(--sidebar-ring))",
                 },
                 "custom-blue": "#11172A",
-                "custom-cream": "#F8EDDE",
+                "custom-cream": "#fff7f0",
                 "custom-grey": "#1E1E1E",
             },
         },
