@@ -34,8 +34,8 @@ export default function Blog({ blogs }: BlogsProps) {
                         </p>
                         <p className="font-jost text-custom-blue text-lg">
                             Temukan berbagai artikel informatif, tips
-                            perjalanan, dan cerita seru seputar destinasi
-                            wisata terbaik dari kami.
+                            perjalanan, dan cerita seru seputar destinasi wisata
+                            terbaik dari kami.
                         </p>
                     </div>
 
@@ -57,9 +57,15 @@ export default function Blog({ blogs }: BlogsProps) {
                                 <h2 className="text-3xl font-bold mb-4">
                                     {blogs[0].title}
                                 </h2>
-                                <p className="text-lg">
-                                    {blogs[0].content.slice(0, 150)}...
-                                </p>
+
+                                <div
+                                    className="text-lg"
+                                    dangerouslySetInnerHTML={{
+                                        __html:
+                                            blogs[0].content.slice(0, 150) +
+                                            "....",
+                                    }}
+                                />
                             </Link>
 
                             {/* Informasi Terbaru */}
@@ -77,7 +83,7 @@ export default function Blog({ blogs }: BlogsProps) {
                                                 alt={blog.title}
                                             />
                                             <div className="p-4">
-                                                <h4 className="text-xl font-semibold mb-2">
+                                                <h4 className="text-xl text-black font-semibold mb-2">
                                                     {blog.title}
                                                 </h4>
                                                 <p className="text-sm text-gray-600 mb-4">
@@ -89,9 +95,17 @@ export default function Blog({ blogs }: BlogsProps) {
                                                         year: "numeric",
                                                     })}
                                                 </p>
-                                                <p className="text-gray-700 text-sm">
-                                                    {blog.content.slice(0, 100)}...
-                                                </p>
+                                                <span className="text-gray-700 text-sm flex text-justify">
+                                                    <div
+                                                        dangerouslySetInnerHTML={{
+                                                            __html:
+                                                                blog.content.slice(
+                                                                    0,
+                                                                    150
+                                                                ) + "....",
+                                                        }}
+                                                    />
+                                                </span>
                                             </div>
                                         </Link>
                                     ))}
@@ -130,8 +144,12 @@ export default function Blog({ blogs }: BlogsProps) {
                                                 year: "numeric",
                                             })}
                                         </p>
-                                        <p className="text-sm text-gray-700 line-clamp-3 flex-1">
-                                            {blog.content.slice(0, 100)}...
+
+                                        <p className="text-sm text-gray-700 line-clamp-3 flex-1 text-justify">
+                                            {stripHtml(blog.content).slice(
+                                                0,
+                                                150
+                                            ) + "..."}
                                         </p>
                                     </div>
                                 </Link>
@@ -142,7 +160,9 @@ export default function Blog({ blogs }: BlogsProps) {
                             <div className="flex justify-center items-center gap-2 mt-8">
                                 <button
                                     className="px-3 py-1 rounded bg-custom-blue text-white font-bold disabled:opacity-50"
-                                    onClick={() => setPage((p) => Math.max(1, p - 1))}
+                                    onClick={() =>
+                                        setPage((p) => Math.max(1, p - 1))
+                                    }
                                     disabled={page === 1}
                                 >
                                     &lt;
@@ -162,7 +182,11 @@ export default function Blog({ blogs }: BlogsProps) {
                                 ))}
                                 <button
                                     className="px-3 py-1 rounded bg-custom-blue text-white font-bold disabled:opacity-50"
-                                    onClick={() => setPage((p) => Math.min(totalPages, p + 1))}
+                                    onClick={() =>
+                                        setPage((p) =>
+                                            Math.min(totalPages, p + 1)
+                                        )
+                                    }
                                     disabled={page === totalPages}
                                 >
                                     &gt;
@@ -174,4 +198,13 @@ export default function Blog({ blogs }: BlogsProps) {
             </div>
         </AppLayout>
     );
+}
+
+function stripHtml(html: string): string {
+    if (typeof window !== "undefined") {
+        const div = document.createElement("div");
+        div.innerHTML = html;
+        return div.textContent || div.innerText || "";
+    }
+    return html.replace(/<[^>]*>?/gm, "");
 }
