@@ -8,18 +8,22 @@ use Inertia\Inertia;
 use App\Models\Blog;
 use Illuminate\Support\Facades\Log;
 
-class BlogController extends Controller {
-    public function index() {
+class BlogController extends Controller
+{
+    public function index()
+    {
         $blogs = Blog::paginate(5);
 
         return Inertia::render("Admin/Blog/Blogs", $blogs);
     }
 
-    public function createBlogScreen() {
+    public function createBlogScreen()
+    {
         return Inertia::render("Admin/Blog/Editor");
     }
 
-    public function createBlog(Request $request) {
+    public function createBlog(Request $request)
+    {
         $request->validate([
             "title" => "required|string",
             "content" => "required|string",
@@ -37,7 +41,8 @@ class BlogController extends Controller {
         );
     }
 
-    public function deleteBlog($id) {
+    public function deleteBlog($id)
+    {
         $blog = Blog::where("id", $id)->first();
 
         if (!$blog) {
@@ -52,13 +57,15 @@ class BlogController extends Controller {
         return back();
     }
 
-    public function editBlogScreen($slug) {
+    public function editBlogScreen($slug)
+    {
         $blog = Blog::where("slug", $slug)->first();
 
         return Inertia::render("Admin/Blog/Editor", ["blog" => $blog]);
     }
 
-    public function editBlog(Request $request, $id) {
+    public function editBlog(Request $request, $id)
+    {
         if (!Auth::check()) {
             return response()->json(
                 [
@@ -86,18 +93,26 @@ class BlogController extends Controller {
         );
     }
 
-    public function getBlogHome() {
+    public function getBlogHome()
+    {
         $blogs = Blog::take(9)->get();
         return Inertia::render("Home", ["blogs" => $blogs]);
     }
 
-    public function getAllBlog() {
+    public function getAllBlog()
+    {
         $blogs = Blog::all();
         return Inertia::render("Blog", ["blogs" => $blogs]);
     }
 
-    public function getAPost($slug) {
+    public function getAPost($slug)
+    {
         $blog = Blog::where("slug", $slug)->firstOrFail();
-        return Inertia::render("BlogPost", ["blog" => $blog]);
+        $recommededBlogs = Blog::where("slug", "!=", $slug)
+            ->inRandomOrder()
+            ->take(3)
+            ->get();
+
+        return Inertia::render("BlogPost", ["blog" => $blog, "recommededBlogs" => $recommededBlogs]);
     }
 }
