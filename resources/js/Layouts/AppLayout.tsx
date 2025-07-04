@@ -171,7 +171,7 @@ export default function App({
                 {children}
                 <a
                     href="https://wa.me/6282220358706"
-                    className="fixed md:bottom-8 md:right-16 z-50 bg-green-500 hover:bg-green-600 text-white w-14 h-14 rounded-full flex items-center justify-center shadow-lg"
+                    className="fixed bottom-4 right-4 md:bottom-8 md:right-16 z-50 bg-green-500 hover:bg-green-600 text-white w-14 h-14 rounded-full flex items-center justify-center shadow-lg"
                     target="_blank"
                     rel="noopener noreferrer"
                 >
