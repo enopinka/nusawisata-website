@@ -32,7 +32,7 @@ export default function Home({ blogs }: BlogsProps) {
                         </div>
                         <div className="w-full text-left lg:text-left">
                             <h1 className="mt-12 text-4xl md:text-5xl font-extrabold font-montserrat text-custom-blue leading-snug">
-                                Jajah Setiap Sudut Nusantara<br />Bersama <span className="text-blue-900">Nusawisata!</span>
+                                Jelajah Setiap Sudut Nusantara<br />Bersama <span className="text-blue-900">Nusawisata!</span>
                             </h1>
                             <p className="mt-4 text-gray-700 text-base md:text-lg font-jost max-w-3xl mx-auto lg:mx-0">
                                 Temukan momen-momen unik dan permata tersembunyi di berbagai penjuru Nusantara yang menghadirkan pengalaman tak terlupakan.
